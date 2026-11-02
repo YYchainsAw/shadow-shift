@@ -1,0 +1,83 @@
+name: PR milestone
+
+on:
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize]
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  pull-requests: read
+
+concurrency:
+  group: pr-milestone-${{ github.event.pull_request.number || 'scan' }}
+  cancel-in-progress: false
+
+jobs:
+  inherit:
+    name: Inherit milestone from linked issues
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const repository = `${owner}/${repo}`.toLowerCase();
+            const query = `query($owner: String!, $repo: String!, $number: Int!, $after: String) {
+              repository(owner: $owner, name: $repo) {
+                pullRequest(number: $number) {
+                  state
+                  milestone { number }
+                  closingIssuesReferences(first: 100, after: $after) {
+                    nodes { number repository { nameWithOwner } milestone { number title } }
+                    pageInfo { hasNextPage endCursor }
+                  }
+                }
+              }
+            }`;
+
+            async function check(number) {
+              let after = null;
+              const issues = [];
+              do {
+                const result = await github.graphql(query, { owner, repo, number, after });
+                const pr = result.repository.pullRequest;
+                if (!pr || pr.state !== 'OPEN' || pr.milestone) {
+                  core.info(`PR #${number}: already closed or has a milestone; skipping.`);
+                  return;
+                }
+                issues.push(...pr.closingIssuesReferences.nodes);
+                after = pr.closingIssuesReferences.pageInfo.hasNextPage
+                  ? pr.closingIssuesReferences.pageInfo.endCursor : null;
+              } while (after);
+
+              if (!issues.length || issues.some(issue =>
+                issue.repository.nameWithOwner.toLowerCase() !== repository || !issue.milestone)) {
+                core.info(`PR #${number}: no linked issues, or a linked issue belongs to another repository or has no milestone; skipping.`);
+                return;
+              }
+              const milestones = new Set(issues.map(issue => issue.milestone.number));
+              if (milestones.size !== 1) {
+                core.info(`PR #${number}: linked issues have different milestones; select one manually.`);
+                return;
+              }
+
+              // Read the PR again to reduce the chance of overwriting a newly assigned milestone.
+              const current = await github.rest.issues.get({ owner, repo, issue_number: number });
+              if (current.data.state !== 'open' || current.data.milestone) return;
+              await github.rest.issues.update({
+                owner, repo, issue_number: number, milestone: [...milestones][0]
+              });
+              core.info(`PR #${number}: inherited milestone ${issues[0].milestone.title}.`);
+            }
+
+            if (context.payload.pull_request) {
+              await check(context.payload.pull_request.number);
+            } else {
+              const prs = await github.paginate(github.rest.pulls.list, {
+                owner, repo, state: 'open', per_page: 100
+              });
+              for (const pr of prs) await check(pr.number);
+            }

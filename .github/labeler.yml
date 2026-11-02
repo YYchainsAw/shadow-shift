@@ -1,0 +1,17 @@
+"type:feature":
+  - head-branch: ['^feature/']
+
+"type:bug":
+  - head-branch: ['^fix/']
+
+"type:refactor":
+  - head-branch: ['^refactor/']
+
+"type:docs":
+  - head-branch: ['^docs/']
+
+"area:art":
+  - head-branch: ['^art/']
+
+"area:audio":
+  - head-branch: ['^audio/']

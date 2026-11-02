@@ -1,0 +1,25 @@
+name: PR checks
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  unity-files:
+    name: Unity asset checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check Unity .meta files
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: node .github/scripts/check-unity-meta.js "$BASE_SHA"
+
+      - name: Check Git LFS pointers
+        run: git lfs fsck --pointers HEAD
