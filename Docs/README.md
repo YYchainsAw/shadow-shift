@@ -3,10 +3,12 @@
 ## Start here
 
 - [Development plan](DevelopmentPlan.md) covers milestones, team roles, and release checks.
+- [First playable greybox](Design/first-playable-greybox.drawio.svg) shows the three level beats, waypoint positions, and spotlight timing for the final crossing.
 - [Prototype use-case diagram](Architecture/UML/shadow-shift-use-cases.drawio.svg) maps player and level designer interactions from the Technical Game Design Document v0.1.
 - [Character locomotion state machine](Architecture/UML/character-locomotion-state-machine.drawio.svg) specifies movement, route changes, and landing for the first playable greybox.
 - [Character form state machine](Architecture/UML/character-form-state-machine.drawio.svg) specifies shift guards, denial feedback, and when to recalculate the route.
 - [Level session state machine](Architecture/UML/level-session-state-machine.drawio.svg) specifies pause, failure, completion, and the shared reset flow.
+- [SpotlightRail integration contract](Architecture/spotlight-rail.md) covers the standalone pointer test and the handoff to the light footprint and route planner.
 - [Repository workflow](../CONTRIBUTING.md) covers branches, pull requests, and Unity asset changes.
 
 ## Where documents belong
