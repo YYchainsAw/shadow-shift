@@ -9,6 +9,7 @@
 - [Character form state machine](Architecture/UML/character-form-state-machine.drawio.svg) specifies shift guards, denial feedback, and when to recalculate the route.
 - [Level session state machine](Architecture/UML/level-session-state-machine.drawio.svg) specifies pause, failure, completion, and the shared reset flow.
 - [SpotlightRail integration contract](Architecture/spotlight-rail.md) covers the standalone pointer test and the handoff to the light footprint and route planner.
+- [Light footprint and waypoint routing](Architecture/light-footprint-and-routing.md) defines light sampling, route selection, and the greybox integration checks.
 - [Repository workflow](../CONTRIBUTING.md) covers branches, pull requests, and Unity asset changes.
 
 ## Where documents belong

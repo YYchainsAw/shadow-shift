@@ -44,9 +44,9 @@ Use each row as an issue draft. Give every issue one owner and a milestone. Copy
 | Design the first playable level | Design lead | 8 Nov | A three-beat sketch, agreed interaction rules, and a must-have asset list are linked in the issue. | — |
 | Import a one-screen art sample | Art owner | 8 Nov | Two forms and an obstacle appear at the intended scale in Unity. Sprite import settings and the foot pivot are recorded. | First level sketch |
 | Smoke-test an itch.io build | Build owner | 8 Nov | A teammate opens the uploaded test build. Record the tested target and fallback. | Unity project access |
-| Build the spotlight rail and light footprint | Gameplay owner | 10 Nov | Mouse movement clamps to the rail and the visible light boundary matches the gameplay check. | [SpotlightRail integration contract](Architecture/spotlight-rail.md) |
+| Build the spotlight rail and light footprint | Gameplay owner | 10 Nov | Mouse movement clamps to the rail and the visible light boundary matches the gameplay check. | [SpotlightRail contract](Architecture/spotlight-rail.md) and [footprint rules](Architecture/light-footprint-and-routing.md) |
 | Implement form switching and shadow stability | Gameplay owner | 11 Nov | Test all three obstacle types, a rejected switch inside a wall, a successful recovery after leaving the light, and a failure at timeout. | Collision rules and light footprint |
-| Integrate waypoint following, exit, and restart | Main scene owner | 13 Nov | The character follows a reachable target or stops with feedback. The greybox plays from spawn to exit. Failure and R restore the starting state. | Spotlight and form systems |
+| Integrate waypoint following, exit, and restart | Main scene owner | 13 Nov | The character follows a reachable target or stops with feedback. The greybox plays from spawn to exit. Failure and R restore the starting state. | Spotlight and form systems, [waypoint routing](Architecture/light-footprint-and-routing.md) |
 | Deliver the first importable art kit | Art owner | 13 Nov | Two form sprites, three obstacle types, ground/platform, light/rail, a hazard, and an exit can replace placeholders without changing collision. | Art sample and level sketch |
 
 ## Production milestones
