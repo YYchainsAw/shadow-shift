@@ -2,7 +2,7 @@
 
 ## Standalone test
 
-Create `Assets/Scenes/SpotlightControlTest.unity` on a feature branch such as `feature/spotlight-control-test`. Use a 2D orthographic camera aligned with world XY, a horizontal rail, and a placeholder light. The test scene demonstrates pointer control and end stops. The main prototype will add the gameplay light footprint, navigation, shadow stability, and level lifecycle.
+Create `Assets/Scenes/SpotlightControlTest.unity` on a feature branch such as `feature/spotlight-control-test`. Use a 2D orthographic camera aligned with world XY, a horizontal rail, and a placeholder light. The test scene demonstrates left-button dragging, right-button aiming, and rail end stops. Integrate it with A/D movement, W jumping, Left Shift form switching, shadow stability, and the level lifecycle.
 
 ## Scene setup
 
@@ -10,30 +10,37 @@ Create `Assets/Scenes/SpotlightControlTest.unity` on a feature branch such as `f
 | --- | --- |
 | `View Camera` | The camera that displays the test scene and defines how the pointer maps into the world. |
 | `Left Endpoint` and `Right Endpoint` | Stationary transforms with the same world Y and Z and distinct world X coordinates. Keep both markers outside the moving light hierarchy. |
-| `SpotlightRail` host | Attach the component to the moving light root. Place the root at the starting position on the rail and attach the placeholder visual as a child. |
+| `SpotlightRail` host | Attach the component to the moving light root. Place the root at the starting position on the rail. Rotate its beam around the lamp pivot and keep the visible beam and gameplay footprint on the same transform. |
+| `Beam Length` and `Beam Half Angle` | Configure the finite cone dimensions for the greybox and use them for both rendering and illumination checks. |
 
 ## Behavior and output
 
-1. Read the current mouse position in screen space through the project's Input System. Pointer movement alone drives the light.
-2. Project the pointer onto the rail's world XY plane at the authored Z. Clamp the projected world X between the endpoint X values and use the rail's fixed world Y and Z.
-3. Move the light root to that position. If a pointer sample is unavailable, retain the last valid position.
+1. Read the current mouse position and button states through the project's Input System. Project valid pointer samples onto the rail's world XY plane at the authored Z.
+2. On a left-button press, capture the projected pointer baseline at the lamp's current position. While held, apply the horizontal displacement since the previous valid pointer sample, then advance the baseline. Clamp each displacement to the endpoint X values and keep the rail's fixed world Y and Z. A fresh press starts from the current lamp position.
+3. While the right button is held, rotate the beam in world XY so its centerline points from the lamp to the projected pointer. Retain the previous aim when the cursor coincides with the lamp pivot.
+4. Process both held buttons in the same gameplay update, applying translation before aiming. Preserve position and rotation when their corresponding buttons are released. Missing pointer samples preserve the last valid transform. Character movement and jumping continue independently while the mouse controls are active.
+5. Clear drag baselines on release, focus loss, pause, and reset. Restore the authored lamp position and aim on reset. After a reset or resume, require held mouse buttons to be released before starting a new gesture.
 
-Expose **`Vector3 WorldPosition { get; }`** as the current world-space position of the light root after clamping. It is the shared anchor for the light visual, gameplay footprint, and route target. Keeping the visual as a child lets the integrator swap the placeholder while preserving the anchor.
+Expose **`Vector3 WorldPosition { get; }`** as the current world-space lamp position after clamping. Share the beam's rotation and configured dimensions with the footprint system. Capture these values together after pointer updates so the visible cone and illumination test use one transform snapshot. Keeping visuals below the lamp pivot lets the integrator replace placeholders while preserving that anchor.
 
 ## Main prototype handoff
 
-- **Light footprint.** Build the gameplay light region from the updated `WorldPosition`. Draw its visible boundary using the same footprint. The footprint owns the point-in-light check used by shadow stability and route eligibility.
-- **Route planner.** Use that same position snapshot and footprint to resolve the nearest reachable lit waypoint for the active form. [Locomotion state machine](UML/character-locomotion-state-machine.drawio.svg)
-- **Level session.** Gate pointer updates when gameplay is paused, failed, completed, or resetting. Restore the authored initial light position and update the footprint before locomotion samples the reset state. [Level session state machine](UML/level-session-state-machine.drawio.svg)
+- **Light footprint.** Build the gameplay cone from the updated lamp transform and dimensions. Draw its visible boundary using the same footprint. The footprint owns the foot-position check used by form eligibility and shadow stability. [Light footprint and direct movement](light-footprint-and-movement.md)
+- **Character movement.** Read A/D and W independently of drag and aim. Shadow stability gates steering and jumping, and the active form determines collision behavior. [Locomotion state machine](UML/character-locomotion-state-machine.drawio.svg)
+- **Level session.** Gate pointer updates when gameplay is paused, failed, completed, or resetting. Restore the authored initial lamp position and aim, then update the footprint before evaluating the reset character. [Level session state machine](UML/level-session-state-machine.drawio.svg)
 
 ## Acceptance checks
 
 | Check | Expected result |
 | --- | --- |
-| Open the test scene and enter Play mode. Move the mouse left and right. | The placeholder follows the pointer along the rail without a click. |
-| Move the pointer vertically at a fixed screen X. | The light stays at the same world position. |
-| Move the pointer beyond each rail endpoint. | The light stops at the corresponding endpoint. Its world Y and Z stay fixed. |
+| Move the cursor with both mouse buttons released. | The lamp keeps its position and aim. |
+| Hold the left button and drag horizontally while moving with A/D and jumping with W. | The lamp moves relative to the drag baseline while the character remains controllable. |
+| Drag vertically at a fixed projected world X with only the left button held. | The lamp stays at the same world position and keeps its aim. |
+| Drag past either rail endpoint, then reverse direction. | The lamp clamps to that endpoint and moves away immediately when the pointer reverses. Its world Y and Z stay fixed. |
+| Hold the right button and move the cursor, then release it. | The cone rotates around the lamp toward the cursor and retains the last aim on release. |
+| Hold both buttons while moving the cursor. | The lamp translates along the rail and the beam aims from its updated position. |
 | Reposition the endpoints along X and run the test again. | The new endpoint positions define the allowed range. |
-| Read `WorldPosition` after a pointer update. | It matches the light root's current world position, including when clamped to an endpoint. |
+| Read the lamp position, beam rotation, and dimensions after a pointer update. | They match the rendered cone and the shared gameplay footprint. |
+| Restart while a mouse button is held. | The lamp returns to its initial position and aim. Releasing and pressing the button begins a new gesture. |
 
 Include the scene and script with their `.meta` files. Share the branch name and a short Game view recording or playtest note for integration review.
