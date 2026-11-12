@@ -13,6 +13,8 @@ namespace ShadowShift
         [SerializeField] private Collider2D exit;
         [SerializeField] private Collider2D hazard;
         [SerializeField] private FormObstacle[] obstacles;
+        [SerializeField] private PhysicalSwitch fanSwitch;
+        [SerializeField] private ShadowUpdraft updraft;
         [SerializeField, Min(0.01f)] private float shadowGracePeriod = 1f;
         [SerializeField] private float cameraLookAhead = 2f;
         [SerializeField] private float cameraMinX = -3f;
@@ -84,6 +86,7 @@ namespace ShadowShift
                 return;
             }
 
+            UpdateUpdraft();
             if (form.IsOutsideLight)
                 character.StopSteering();
             else
@@ -95,6 +98,17 @@ namespace ShadowShift
         private bool Overlaps(Collider2D trigger)
         {
             return character.Collider.Distance(trigger).isOverlapped;
+        }
+
+        private void UpdateUpdraft()
+        {
+            if (updraft == null)
+                return;
+
+            if (fanSwitch != null && fanSwitch.TryPress(character.Collider, form.IsShadow))
+                updraft.SetActive(true);
+
+            character.SetUpdraft(form.IsShadow ? updraft : null, spotlight);
         }
 
         private void UpdateCharacterInput(Keyboard keyboard)
@@ -139,6 +153,10 @@ namespace ShadowShift
             Physics2D.SyncTransforms();
             form.Reset();
             spotlight.ResetPosition();
+            if (fanSwitch != null)
+                fanSwitch.ResetSwitch();
+            if (updraft != null)
+                updraft.SetActive(false);
             UpdateCharacterVisual();
             UpdateCamera();
             feedback = message;
@@ -199,6 +217,11 @@ namespace ShadowShift
             if (character.IsMovementBlocked)
                 GUILayout.Label("Movement blocked by the current form's collision.");
             GUILayout.Label("Brown walls block Physical. Purple walls block Shadow. Grey blocks stop both.");
+            if (StateMachine.CurrentState == PlayingState && fanSwitch != null && updraft != null
+                && (character.FootPosition - (Vector2)fanSwitch.transform.position).sqrMagnitude < 16f)
+                GUILayout.Label(updraft.IsActive
+                    ? "Fan powered. Aim the beam along the updraft, then enter as Shadow."
+                    : "Step on the green switch as Physical to power the fan.");
             GUILayout.Label(feedback);
             GUILayout.EndArea();
         }

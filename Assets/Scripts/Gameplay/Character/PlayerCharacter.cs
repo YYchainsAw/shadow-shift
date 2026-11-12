@@ -24,12 +24,15 @@ namespace ShadowShift
         private ContactFilter2D groundFilter;
         private float moveInput;
         private bool jumpRequested;
+        private ShadowUpdraft updraft;
+        private SpotlightRail updraftLight;
 
         public StateMachine<CharacterState> StateMachine { get; } = new();
         public CharacterIdleState IdleState { get; private set; }
         public CharacterMoveState MoveState { get; private set; }
         public CharacterJumpState JumpState { get; private set; }
         public CharacterFallState FallState { get; private set; }
+        public CharacterRiseState RiseState { get; private set; }
         public Rigidbody2D Body { get; private set; }
         public BoxCollider2D Collider => bodyCollider;
         public bool SimulationEnabled { get; set; } = true;
@@ -72,6 +75,7 @@ namespace ShadowShift
             MoveState = new CharacterMoveState(this, StateMachine);
             JumpState = new CharacterJumpState(this, StateMachine);
             FallState = new CharacterFallState(this, StateMachine);
+            RiseState = new CharacterRiseState(this, StateMachine);
             StateMachine.Initialize(IdleState);
         }
 
@@ -101,6 +105,7 @@ namespace ShadowShift
         public void ResetMotion(Vector2 spawnPosition)
         {
             ClearInput();
+            SetUpdraft(null, null);
             Body.position = spawnPosition;
             Body.linearVelocity = Vector2.zero;
             Body.angularVelocity = 0f;
@@ -108,10 +113,19 @@ namespace ShadowShift
             StateMachine.ChangeState(IdleState);
         }
 
+        internal void SetUpdraft(ShadowUpdraft field, SpotlightRail light)
+        {
+            updraft = field;
+            updraftLight = light;
+        }
+
         private void FixedUpdate()
         {
             if (!SimulationEnabled)
                 return;
+
+            if (StateMachine.CurrentState != RiseState && CanUseUpdraft())
+                StateMachine.ChangeState(RiseState);
 
             StateMachine.CurrentState.Update();
             jumpRequested = false;
@@ -130,6 +144,27 @@ namespace ShadowShift
         internal void BeginJump()
         {
             Body.linearVelocityY = jumpSpeed;
+        }
+
+        internal bool TryApplyUpdraft()
+        {
+            if (!CanUseUpdraft())
+                return false;
+
+            float verticalSpeed = Body.linearVelocityY;
+            if (verticalSpeed < updraft.RiseSpeed)
+                Body.linearVelocityY = Mathf.MoveTowards(
+                    verticalSpeed, updraft.RiseSpeed, updraft.Acceleration * Time.fixedDeltaTime);
+            return true;
+        }
+
+        private bool CanUseUpdraft()
+        {
+            if (updraft == null || updraftLight == null)
+                return false;
+
+            Vector2 footPosition = FootPosition;
+            return updraft.Contains(footPosition) && updraftLight.Contains(footPosition);
         }
 
         internal bool IsGrounded()
