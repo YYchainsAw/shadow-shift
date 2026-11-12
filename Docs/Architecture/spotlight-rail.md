@@ -1,16 +1,15 @@
-# SpotlightRail integration contract
-
-## Standalone test
-
-Create `Assets/Scenes/SpotlightControlTest.unity` on a feature branch such as `feature/spotlight-control-test`. Use a 2D orthographic camera aligned with world XY, a horizontal rail, and a placeholder light. The test scene demonstrates left-button dragging, right-button aiming, and rail end stops. Integrate it with A/D movement, W jumping, Left Shift form switching, shadow stability, and the level lifecycle.
+# Spotlight rail setup
 
 ## Scene setup
+
+The [Shadow Shift scene](../../Assets/Scenes/ShadowShift.unity) uses a 2D orthographic camera, a lamp, and two rail endpoint transforms.
 
 | Inspector reference | Setup |
 | --- | --- |
 | `View Camera` | The camera that displays the test scene and defines how the pointer maps into the world. |
 | `Left Endpoint` and `Right Endpoint` | Stationary transforms with the same world Y and Z and distinct world X coordinates. Keep both markers outside the moving light hierarchy. |
 | `SpotlightRail` host | Attach the component to the moving light root. Place the root at the starting position on the rail. Rotate its beam around the lamp pivot and keep the visible beam and gameplay footprint on the same transform. |
+| `Beam Shader` | Assign the [Spotlight Beam shader](../../Assets/Shaders/SpotlightBeam.shader) used to render the cone. |
 | `Beam Length` and `Beam Half Angle` | Configure the finite cone dimensions for the greybox and use them for both rendering and illumination checks. |
 
 ## Behavior and output
@@ -23,7 +22,7 @@ Create `Assets/Scenes/SpotlightControlTest.unity` on a feature branch such as `f
 
 Expose **`Vector3 WorldPosition { get; }`** as the current world-space lamp position after clamping. Share the beam's rotation and configured dimensions with the footprint system. Capture these values together after pointer updates so the visible cone and illumination test use one transform snapshot. Keeping visuals below the lamp pivot lets the integrator replace placeholders while preserving that anchor.
 
-## Main prototype handoff
+## Gameplay integration
 
 - **Light footprint.** Build the gameplay cone from the updated lamp transform and dimensions. Draw its visible boundary using the same footprint. The footprint owns the foot-position check used by form eligibility and shadow stability. [Light footprint and direct movement](light-footprint-and-movement.md)
 - **Character movement.** Read A/D and W independently of drag and aim. Shadow stability gates steering and jumping, and the active form determines collision behavior. [Locomotion state machine](UML/character-locomotion-state-machine.drawio.svg)
@@ -42,5 +41,3 @@ Expose **`Vector3 WorldPosition { get; }`** as the current world-space lamp posi
 | Reposition the endpoints along X and run the test again. | The new endpoint positions define the allowed range. |
 | Read the lamp position, beam rotation, and dimensions after a pointer update. | They match the rendered cone and the shared gameplay footprint. |
 | Restart while a mouse button is held. | The lamp returns to its initial position and aim. Releasing and pressing the button begins a new gesture. |
-
-Include the scene and script with their `.meta` files. Share the branch name and a short Game view recording or playtest note for integration review.

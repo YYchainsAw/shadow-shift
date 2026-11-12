@@ -4,11 +4,12 @@
 
 - [Development plan](DevelopmentPlan.md) covers milestones, team roles, and release checks.
 - [First playable greybox](Design/first-playable-greybox.drawio.svg) shows the three level beats, position markers, and spotlight timing for the final crossing.
-- [Prototype use-case diagram](Architecture/UML/shadow-shift-use-cases.drawio.svg) maps player and level designer interactions for the direct-control design confirmed on 11 November.
+- [First playable level](Development/first-playable.md) lists the controls, scene setup, and playtest route.
+- [Gameplay use-case diagram](Architecture/UML/shadow-shift-use-cases.drawio.svg) maps player and level designer interactions for the direct-control design confirmed on 11 November.
 - [Character locomotion state machine](Architecture/UML/character-locomotion-state-machine.drawio.svg) specifies A/D movement, W jumping, airborne steering, and landing for the first playable greybox.
 - [Character form state machine](Architecture/UML/character-form-state-machine.drawio.svg) specifies Left Shift requests, collision guards, and shadow stability feedback.
 - [Level session state machine](Architecture/UML/level-session-state-machine.drawio.svg) specifies pause, failure, completion, and the shared reset flow.
-- [SpotlightRail integration contract](Architecture/spotlight-rail.md) covers left-button dragging, right-button aiming, and the handoff to the light footprint.
+- [Spotlight rail setup](Architecture/spotlight-rail.md) covers scene references, left-button dragging, and right-button aiming.
 - [Light footprint and direct movement](Architecture/light-footprint-and-movement.md) defines light sampling, movement input, and the greybox integration checks.
 - [Repository workflow](../CONTRIBUTING.md) covers branches, pull requests, and Unity asset changes.
 
