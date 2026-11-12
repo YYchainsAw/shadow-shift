@@ -3,13 +3,14 @@
 ## Start here
 
 - [Development plan](DevelopmentPlan.md) covers milestones, team roles, and release checks.
-- [First playable greybox](Design/first-playable-greybox.drawio.svg) shows the three level beats, waypoint positions, and spotlight timing for the final crossing.
-- [Prototype use-case diagram](Architecture/UML/shadow-shift-use-cases.drawio.svg) maps player and level designer interactions from the Technical Game Design Document v0.1.
-- [Character locomotion state machine](Architecture/UML/character-locomotion-state-machine.drawio.svg) specifies movement, route changes, and landing for the first playable greybox.
-- [Character form state machine](Architecture/UML/character-form-state-machine.drawio.svg) specifies shift guards, denial feedback, and when to recalculate the route.
+- [First playable greybox](Design/first-playable-greybox.drawio.svg) shows the three level beats, position markers, and spotlight timing for the final crossing.
+- [First playable level](Development/first-playable.md) lists the controls, scene setup, and playtest route.
+- [Gameplay use-case diagram](Architecture/UML/shadow-shift-use-cases.drawio.svg) maps player and level designer interactions for the direct-control design confirmed on 11 November.
+- [Character locomotion state machine](Architecture/UML/character-locomotion-state-machine.drawio.svg) specifies A/D movement, W jumping, airborne steering, and landing for the first playable greybox.
+- [Character form state machine](Architecture/UML/character-form-state-machine.drawio.svg) specifies Left Shift requests, collision guards, and shadow stability feedback.
 - [Level session state machine](Architecture/UML/level-session-state-machine.drawio.svg) specifies pause, failure, completion, and the shared reset flow.
-- [SpotlightRail integration contract](Architecture/spotlight-rail.md) covers the standalone pointer test and the handoff to the light footprint and route planner.
-- [Light footprint and waypoint routing](Architecture/light-footprint-and-routing.md) defines light sampling, route selection, and the greybox integration checks.
+- [Spotlight rail setup](Architecture/spotlight-rail.md) covers scene references, left-button dragging, and right-button aiming.
+- [Light footprint and direct movement](Architecture/light-footprint-and-movement.md) defines light sampling, movement input, and the greybox integration checks.
 - [Repository workflow](../CONTRIBUTING.md) covers branches, pull requests, and Unity asset changes.
 
 ## Where documents belong
@@ -32,4 +33,4 @@ Create a directory when it has its first document. Write in English, use descrip
 
 ## State machine reference
 
-The earlier [2D RPG project](https://github.com/YYchainsAw/2D-RPG-250.01) provides a familiar `Enter`, `Update`, and `Exit` lifecycle. Model character locomotion, character form, and the level session separately. The spotlight feeds the route planner, which supplies movement targets to the locomotion state machine.
+The earlier [2D RPG project](https://github.com/YYchainsAw/2D-RPG-250.01) provides a familiar `Enter`, `Update`, and `Exit` lifecycle. Model character locomotion, character form, and the level session separately. A/D and W feed locomotion, Left Shift feeds the form state machine, and the lamp's position and rotation feed the light footprint and shadow stability checks.

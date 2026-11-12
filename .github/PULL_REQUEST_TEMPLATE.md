@@ -26,3 +26,4 @@
 - [ ] All included files are relevant to this change.
 - [ ] New or moved Unity assets include their corresponding `.meta` files.
 - [ ] Verification steps or the reason for not testing are documented.
+- [ ] Documentation affected by this change is up to date.
