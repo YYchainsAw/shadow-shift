@@ -214,8 +214,6 @@ MonoBehaviour:
   cameraMinX: -3
   cameraMaxX: 29
   fallBoundary: -3
-  obstacleHint: Brown walls block Physical. Purple walls block Shadow. Grey blocks
-    stop both.
 --- !u!1 &276445364
 GameObject:
   m_ObjectHideFlags: 0

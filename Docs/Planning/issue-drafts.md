@@ -314,7 +314,7 @@ Integrate the first production art pass into ShadowShift and connect animation a
 
 ### Additional context
 
-The current `LevelSession` provides a debug-style HUD and tints the shared character visual. Current art and mechanism placeholders already provide integration anchors.
+The current `LevelSession` tints the character outside the light. Current art and mechanism placeholders already provide integration anchors for the player-facing feedback.
 
 ## G02 · Add form-dependent descent and Shadow slow fall
 

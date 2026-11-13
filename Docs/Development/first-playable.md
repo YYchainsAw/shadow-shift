@@ -6,7 +6,7 @@ The current layout starts in the upper left and leads through the blue wall on t
 
 1. Open [ShadowShift.unity](../../Assets/Scenes/ShadowShift.unity) in Unity 6000.3.10f1.
 2. Set the Game view to **16:9**, enter Play mode, and focus the Game view.
-3. Use the controls below. The HUD shows the session, form, and movement states, plus the stability countdown outside the light.
+3. Use the controls below.
 
 The default build scene list starts with `ShadowShift`.
 
@@ -52,7 +52,7 @@ Under `Level Session > Environment > Geometry`, use `Platforms` for the ledges, 
 | Approach the purple wall as Shadow and switch to Physical before crossing. | The purple wall blocks Shadow and lets Physical pass. |
 | Stand in Shadow and turn or move the beam away from the character's feet. | The timer starts and steering stops while gravity continues. Returning the beam before the one-second grace period expires restores control. Expiry restarts the test. |
 | Pause while airborne or outside the beam as Shadow, then resume. | Position and the countdown freeze while paused. The character resumes its motion with the same vertical velocity. |
-| Step off the outside edge of the bottom floor. | The failure cue appears and the level restarts. |
+| Step off the outside edge of the bottom floor. | The level restarts after a short delay. |
 | Step onto the green switch as Shadow, then as Physical. Enter the active wind column in Physical form. | The switch responds to Physical and stays on after the character steps off. Physical receives no lift. |
 | Enter the powered wind as lit Shadow. | The wind lifts Shadow while the character's feet remain in the beam. |
 | Reach the blue section of the upper platform after the ascent. | Physical can land on the platform. Shadow passes through it. |

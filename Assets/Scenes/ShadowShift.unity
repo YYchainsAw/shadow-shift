@@ -2646,8 +2646,6 @@ MonoBehaviour:
   cameraMinX: 0
   cameraMaxX: 29
   fallBoundary: -3
-  obstacleHint: Blue blocks Physical. Purple blocks Shadow. Green switch powers the
-    fan. Shadow switch, cracked floor and battery are layout markers.
 --- !u!1 &785884940
 GameObject:
   m_ObjectHideFlags: 0

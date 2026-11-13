@@ -31,20 +31,17 @@ namespace ShadowShift
         internal bool IsLit { get; private set; }
         internal float DeltaTime { get; private set; }
 
-        public string TryShift(bool isLit)
+        public void TryShift(bool isLit)
         {
             if (!IsShadow && !isLit)
-                return "Move the light over the character before shifting.";
+                return;
 
             bool destinationIsShadow = !IsShadow;
             if (!CanOccupy(destinationIsShadow))
-                return destinationIsShadow
-                    ? "Clear Shadow blockers before changing form."
-                    : "Clear Physical blockers before changing form.";
+                return;
 
             IsLit = isLit;
             stateMachine.ChangeState(destinationIsShadow ? ShadowState : PhysicalState);
-            return IsShadow ? "Shadow can pass through Physical Solids." : "Returned to Physical.";
         }
 
         public bool UpdateStability(bool isLit, float deltaTime)

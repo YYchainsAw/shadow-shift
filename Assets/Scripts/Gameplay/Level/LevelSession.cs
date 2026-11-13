@@ -22,14 +22,11 @@ namespace ShadowShift
         [SerializeField] private float cameraMinX = -3f;
         [SerializeField] private float cameraMaxX = 29f;
         [SerializeField] private float fallBoundary = -3f;
-        [SerializeField, TextArea(2, 3)] private string obstacleHint =
-            "Brown walls block Physical. Purple walls block Shadow. Grey blocks stop both.";
 
         private CharacterFormController form;
         private PlayerAnimation characterAnimation;
         private SpotlightInput spotlightInput;
         private Vector2 suspendedVelocity;
-        private string feedback;
 
         public StateMachine<LevelState> StateMachine { get; } = new();
         public LevelPlayingState PlayingState { get; private set; }
@@ -49,14 +46,14 @@ namespace ShadowShift
             FailedState = new LevelFailedState(this);
             CompletedState = new LevelCompletedState(this);
             StateMachine.Initialize(PlayingState);
-            RestartLevel("Move with A/D, jump with W, and bring the light through the walls.");
+            RestartLevel();
         }
 
         private void Update()
         {
             if (Keyboard.current?.rKey.wasPressedThisFrame == true)
             {
-                RestartLevel("Level restarted.");
+                RestartLevel();
                 return;
             }
 
@@ -76,12 +73,11 @@ namespace ShadowShift
             bool isLit = spotlight.Contains(footPosition);
             Keyboard keyboard = Keyboard.current;
             if (keyboard?.leftShiftKey.wasPressedThisFrame == true)
-                feedback = form.TryShift(isLit);
+                form.TryShift(isLit);
 
             bool expired = form.UpdateStability(isLit, Time.deltaTime);
             if (expired || footPosition.y < fallBoundary || Overlaps(hazard))
             {
-                feedback = expired ? "Shadow lost its light." : "Hazard reached or character fell.";
                 StateMachine.ChangeState(FailedState);
                 return;
             }
@@ -160,7 +156,7 @@ namespace ShadowShift
                 characterVisual.color = form.IsShadow ? new Color32(133, 232, 237, 255) : new Color32(255, 240, 210, 255);
         }
 
-        internal void RestartLevel(string message)
+        internal void RestartLevel()
         {
             ResumeSimulation();
             character.ResetMotion(spawnPoint.position);
@@ -173,7 +169,6 @@ namespace ShadowShift
                 updraft.SetActive(false);
             UpdateCharacterVisual();
             UpdateCamera();
-            feedback = message;
             StateMachine.ChangeState(PlayingState);
         }
 
@@ -200,11 +195,6 @@ namespace ShadowShift
             spotlightInput.Reset(Mouse.current);
         }
 
-        internal void ShowCompletion()
-        {
-            feedback = "Exit reached. Press R to play again.";
-        }
-
         private void OnApplicationFocus(bool hasFocus)
         {
             if (!hasFocus && spotlightInput != null && StateMachine.CurrentState == PlayingState)
@@ -212,32 +202,6 @@ namespace ShadowShift
                 character.StopSteering();
                 spotlightInput.Reset(Mouse.current);
             }
-        }
-
-        private void OnGUI()
-        {
-            if (form == null)
-                return;
-
-            GUILayout.BeginArea(new Rect(12f, 12f, Mathf.Min(580f, Screen.width - 24f), 215f), GUI.skin.box);
-            GUILayout.Label("A / D  Move     W  Jump     Left Shift  Change form");
-            GUILayout.Label("Hold left mouse  Drag lamp     Hold right mouse  Rotate beam");
-            GUILayout.Label("R  Restart     Esc  Pause / resume");
-            GUILayout.Label($"Level: {StateName}     Form: {form.StateName}     Movement: {character.StateName}");
-            if (StateMachine.CurrentState == PausedState)
-                GUILayout.Label("Paused. Press Esc to continue.");
-            if (form.IsOutsideLight)
-                GUILayout.Label($"Outside light: {form.TimeRemaining:0.00}s remaining");
-            if (character.IsMovementBlocked)
-                GUILayout.Label("Movement blocked by the current form's collision.");
-            GUILayout.Label(obstacleHint);
-            if (StateMachine.CurrentState == PlayingState && fanSwitch != null && updraft != null
-                && (character.FootPosition - (Vector2)fanSwitch.transform.position).sqrMagnitude < 16f)
-                GUILayout.Label(updraft.IsActive
-                    ? "Fan powered. Aim the beam along the updraft, then enter as Shadow."
-                    : "Step on the green switch as Physical to power the fan.");
-            GUILayout.Label(feedback);
-            GUILayout.EndArea();
         }
     }
 }
