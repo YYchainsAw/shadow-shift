@@ -3,8 +3,8 @@
 ## Start here
 
 - [Development plan](DevelopmentPlan.md) covers milestones, team roles, and release checks.
-- [First playable greybox](Design/first-playable-greybox.drawio.svg) shows the three level beats, position markers, and spotlight timing for the final crossing.
-- [First playable level](Development/first-playable.md) lists the controls, scene setup, and playtest route.
+- [First playable greybox](Design/first-playable-greybox.drawio.svg) maps the current scene, the playable route to the upper platform, and the planned lower puzzle.
+- [First playable level](Development/first-playable.md) lists the controls, scene setup, playtest route, and pending interactions.
 - [Gameplay use-case diagram](Architecture/UML/shadow-shift-use-cases.drawio.svg) maps player and level designer interactions for the direct-control design confirmed on 11 November.
 - [Character locomotion state machine](Architecture/UML/character-locomotion-state-machine.drawio.svg) specifies A/D movement, W jumping, airborne steering, and landing for the first playable greybox.
 - [Character form state machine](Architecture/UML/character-form-state-machine.drawio.svg) specifies Left Shift requests, collision guards, and shadow stability feedback.
