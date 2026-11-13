@@ -10,8 +10,10 @@ namespace ShadowShift
         [SerializeField] private SpriteRenderer characterVisual;
         [SerializeField] private SpotlightRail spotlight;
         [SerializeField] private Transform spawnPoint;
-        [SerializeField] private Collider2D exit;
-        [SerializeField] private Collider2D hazard;
+        [SerializeField, Tooltip("Optional. Reaching this trigger completes the level.")]
+        private Collider2D exit;
+        [SerializeField, Tooltip("Optional. The fall boundary still applies without this trigger.")]
+        private Collider2D hazard;
         [SerializeField] private FormObstacle[] obstacles;
         [SerializeField] private PhysicalSwitch fanSwitch;
         [SerializeField] private ShadowUpdraft updraft;
@@ -20,6 +22,8 @@ namespace ShadowShift
         [SerializeField] private float cameraMinX = -3f;
         [SerializeField] private float cameraMaxX = 29f;
         [SerializeField] private float fallBoundary = -3f;
+        [SerializeField, TextArea(2, 3)] private string obstacleHint =
+            "Brown walls block Physical. Purple walls block Shadow. Grey blocks stop both.";
 
         private CharacterFormController form;
         private SpotlightInput spotlightInput;
@@ -97,7 +101,7 @@ namespace ShadowShift
 
         private bool Overlaps(Collider2D trigger)
         {
-            return character.Collider.Distance(trigger).isOverlapped;
+            return trigger != null && character.Collider.Distance(trigger).isOverlapped;
         }
 
         private void UpdateUpdraft()
@@ -216,7 +220,7 @@ namespace ShadowShift
                 GUILayout.Label($"Outside light: {form.TimeRemaining:0.00}s remaining");
             if (character.IsMovementBlocked)
                 GUILayout.Label("Movement blocked by the current form's collision.");
-            GUILayout.Label("Brown walls block Physical. Purple walls block Shadow. Grey blocks stop both.");
+            GUILayout.Label(obstacleHint);
             if (StateMachine.CurrentState == PlayingState && fanSwitch != null && updraft != null
                 && (character.FootPosition - (Vector2)fanSwitch.transform.position).sqrMagnitude < 16f)
                 GUILayout.Label(updraft.IsActive
