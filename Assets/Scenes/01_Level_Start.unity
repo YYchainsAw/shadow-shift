@@ -463,7 +463,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -2.0314815, y: 0.8441677}
+  m_Offset: {x: -2.0314815, y: 0.8357887}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -473,7 +473,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 4.033135, y: 1.0282478}
+  m_Size: {x: 4.033135, y: 1.0114899}
   m_EdgeRadius: 0
 --- !u!1 &608030028
 GameObject:
@@ -966,7 +966,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.0011575222, y: 0.0036153793}
+  m_Offset: {x: -0.0011575222, y: 0.006793976}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -976,7 +976,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.1052351, y: 1.7503262}
+  m_Size: {x: 1.1052351, y: 1.743969}
   m_EdgeRadius: 0
 --- !u!50 &1452827512
 Rigidbody2D:
@@ -1132,6 +1132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b8fa05323028b844bbcc9e60b4bac39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShadowShift.PlayerAnimation
+  shadowController: {fileID: 22100000, guid: dcbcd92c174dd68419001d41aab8af70, type: 2}
 --- !u!1 &1576901161
 GameObject:
   m_ObjectHideFlags: 0

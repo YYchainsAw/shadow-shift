@@ -26,6 +26,7 @@ namespace ShadowShift
             "Brown walls block Physical. Purple walls block Shadow. Grey blocks stop both.";
 
         private CharacterFormController form;
+        private PlayerAnimation characterAnimation;
         private SpotlightInput spotlightInput;
         private Vector2 suspendedVelocity;
         private string feedback;
@@ -40,6 +41,7 @@ namespace ShadowShift
 
         private void Start()
         {
+            characterAnimation = characterVisual.GetComponent<PlayerAnimation>();
             form = new CharacterFormController(character.Collider, obstacles, shadowGracePeriod);
             spotlightInput = new SpotlightInput(spotlight);
             PlayingState = new LevelPlayingState(this);
@@ -146,8 +148,16 @@ namespace ShadowShift
 
         private void UpdateCharacterVisual()
         {
-            characterVisual.color = form.IsOutsideLight ? new Color32(255, 134, 118, 255)
-                : form.IsShadow ? new Color32(133, 232, 237, 255) : new Color32(255, 240, 210, 255);
+            bool usesFormSprites = characterAnimation != null && characterAnimation.HasShadowAnimations;
+            if (usesFormSprites)
+                characterAnimation.SetShadowForm(form.IsShadow);
+
+            if (form.IsOutsideLight)
+                characterVisual.color = new Color32(255, 134, 118, 255);
+            else if (usesFormSprites)
+                characterVisual.color = Color.white;
+            else
+                characterVisual.color = form.IsShadow ? new Color32(133, 232, 237, 255) : new Color32(255, 240, 210, 255);
         }
 
         internal void RestartLevel(string message)

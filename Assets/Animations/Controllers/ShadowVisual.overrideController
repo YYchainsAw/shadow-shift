@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: ShadowVisual
+  m_Controller: {fileID: 9100000, guid: f6d76fed6fef088409218fa1d926f6e2, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 67b61053990053a45a691600aeabfa5e, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 644a58ffd5c8f3640acadfb5307e2132, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 857cdd8bd5a16ef43b7b57f53c80d0d5, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 7a3bee0afdb8416489ee2dcd786542b1, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 7ae62fa82dcb95440a915cd128f9169a, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 31cf8f51cceaf704db0af47bda3fbaad, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: f15318decdd76d34d84f64d133ac07e7, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: c5cb966d8c5f31d4bbc0a06b4f72b18b, type: 2}

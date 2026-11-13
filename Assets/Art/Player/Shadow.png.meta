@@ -133,12 +133,12 @@ TextureImporter:
       name: Shadow_0
       rect:
         serializedVersion: 2
-        x: 18
-        y: 319
-        width: 26
-        height: 58
+        x: 19
+        y: 320
+        width: 25
+        height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -155,12 +155,12 @@ TextureImporter:
       name: Shadow_1
       rect:
         serializedVersion: 2
-        x: 80
-        y: 319
-        width: 34
-        height: 53
+        x: 81
+        y: 320
+        width: 32
+        height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -177,12 +177,12 @@ TextureImporter:
       name: Shadow_2
       rect:
         serializedVersion: 2
-        x: 148
-        y: 319
-        width: 30
-        height: 53
+        x: 149
+        y: 320
+        width: 28
+        height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -199,12 +199,12 @@ TextureImporter:
       name: Shadow_3
       rect:
         serializedVersion: 2
-        x: 213
-        y: 319
-        width: 29
-        height: 53
+        x: 214
+        y: 320
+        width: 27
+        height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -221,12 +221,12 @@ TextureImporter:
       name: Shadow_4
       rect:
         serializedVersion: 2
-        x: 271
-        y: 319
-        width: 39
-        height: 53
+        x: 272
+        y: 320
+        width: 37
+        height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -243,12 +243,12 @@ TextureImporter:
       name: Shadow_5
       rect:
         serializedVersion: 2
-        x: 341
-        y: 319
-        width: 30
-        height: 53
+        x: 342
+        y: 320
+        width: 28
+        height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -265,12 +265,12 @@ TextureImporter:
       name: Shadow_6
       rect:
         serializedVersion: 2
-        x: 405
-        y: 319
-        width: 29
-        height: 53
+        x: 406
+        y: 320
+        width: 27
+        height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -287,12 +287,12 @@ TextureImporter:
       name: Shadow_7
       rect:
         serializedVersion: 2
-        x: 11
-        y: 223
-        width: 37
-        height: 54
+        x: 12
+        y: 224
+        width: 35
+        height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -309,12 +309,12 @@ TextureImporter:
       name: Shadow_8
       rect:
         serializedVersion: 2
-        x: 75
-        y: 223
-        width: 37
-        height: 52
+        x: 76
+        y: 224
+        width: 35
+        height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -331,12 +331,12 @@ TextureImporter:
       name: Shadow_9
       rect:
         serializedVersion: 2
-        x: 151
-        y: 223
+        x: 152
+        y: 224
         width: 27
-        height: 60
+        height: 58
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -353,12 +353,12 @@ TextureImporter:
       name: Shadow_10
       rect:
         serializedVersion: 2
-        x: 215
-        y: 223
+        x: 216
+        y: 224
         width: 27
-        height: 58
+        height: 56
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -375,7 +375,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 20a5e26d56e652b448e938a3421b493c
     internalID: 0
     vertices: []
     indices: 
