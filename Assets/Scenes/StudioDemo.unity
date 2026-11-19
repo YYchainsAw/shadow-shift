@@ -989,7 +989,7 @@ GameObject:
   - component: {fileID: 340101452}
   - component: {fileID: 340101453}
   m_Layer: 0
-  m_Name: Uncharged battery
+  m_Name: Battery display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2413,7 +2413,7 @@ GameObject:
   - component: {fileID: 653054058}
   - component: {fileID: 653054059}
   m_Layer: 0
-  m_Name: Lit exit
+  m_Name: Exit door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2483,7 +2483,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 6
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: f7dfe869ba544bcf843ebd76f4b35be2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b5b25e22f1fd4854a5bef57232fdbc40, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -2907,6 +2907,7 @@ MonoBehaviour:
   updraft: {fileID: 1705696443}
   shadowSwitch: {fileID: 585686929}
   breakableFloor: {fileID: 974939008}
+  battery: {fileID: 1718274962}
   shadowGracePeriod: 1
   followCharacter: 0
   cameraLookAhead: 0
@@ -7657,6 +7658,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1718274961}
+  - component: {fileID: 1718274962}
   m_Layer: 0
   m_Name: Battery
   m_TagString: Untagged
@@ -7680,6 +7682,27 @@ Transform:
   - {fileID: 340101452}
   m_Father: {fileID: 1116198797}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1718274962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1718274960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45cf5df8a5dc40c39f3f641540af3251, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::ShadowShift.LightBattery
+  chargeDuration: 1.25
+  batteryVisual: {fileID: 340101453}
+  emptySprite: {fileID: 21300000, guid: 6c68d485d6d44515b736b0f1998a907f, type: 3}
+  chargingSprite: {fileID: 21300000, guid: 7ae534ed45764ca09fa850277d1ecd2c, type: 3}
+  fullSprite: {fileID: 21300000, guid: 302324d64fc14a3baee9ef99fd31ee82, type: 3}
+  exitVisual: {fileID: 653054059}
+  lockedExitSprite: {fileID: 21300000, guid: b5b25e22f1fd4854a5bef57232fdbc40, type: 3}
+  poweredExitSprite: {fileID: 21300000, guid: f7dfe869ba544bcf843ebd76f4b35be2, type: 3}
+  exitMarker: {fileID: 2137332760}
 --- !u!114 &1818660628
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8826,7 +8849,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2137332761
 Transform:
   m_ObjectHideFlags: 0

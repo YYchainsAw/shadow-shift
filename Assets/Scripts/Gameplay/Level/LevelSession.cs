@@ -19,6 +19,7 @@ namespace ShadowShift
         [SerializeField] private ShadowUpdraft updraft;
         [SerializeField] private ShadowWalkwaySwitch shadowSwitch;
         [SerializeField] private BreakableFloor breakableFloor;
+        [SerializeField] private LightBattery battery;
         [SerializeField, Min(0.01f)] private float shadowGracePeriod = 1f;
         [SerializeField] private bool followCharacter = true;
         [SerializeField] private float cameraLookAhead = 2f;
@@ -93,7 +94,10 @@ namespace ShadowShift
                 return;
             }
 
-            if (Overlaps(exit))
+            if (battery != null && (breakableFloor == null || breakableFloor.IsBroken))
+                battery.ChargeFrom(spotlight, Time.deltaTime);
+
+            if ((battery == null || battery.IsCharged) && Overlaps(exit))
             {
                 StateMachine.ChangeState(CompletedState);
                 return;
@@ -186,6 +190,8 @@ namespace ShadowShift
                 shadowSwitch.ResetSwitch();
             if (breakableFloor != null)
                 breakableFloor.ResetFloor();
+            if (battery != null)
+                battery.ResetCharge();
             form.Reset();
             spotlight.ResetPosition();
             if (fanSwitch != null)

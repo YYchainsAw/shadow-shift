@@ -67,4 +67,6 @@ Open [StudioDemo.unity](../../Assets/Scenes/StudioDemo.unity) to test the art pa
 1. Pass through the middle blue wall as Shadow and press the green fan switch as Physical.
 2. Return left under the beam to the lower purple switch. Step on it as Shadow to light and enable the upper purple walkway. Physical leaves the switch idle.
 3. Cross the lower route as Physical and jump right to the platform beyond the fan. From there, jump left and enter Shadow in the lit right side of the updraft. Rise beside the purple walkway before moving left to land on it as Shadow.
-4. Press `R` to return to spawn and turn the fan and upper walkway off again.
+4. Walk to the left end of the upper purple walkway. Switch to Physical under the light and fall onto the center of the cracked floor. An ordinary jump or a Shadow landing leaves the floor intact.
+5. Slide the lamp over the opening and aim it at the battery. Keep the light on the battery for 1.25 seconds total. Charge pauses when the battery is in shadow and resumes from the same amount when relit. A full battery lights the exit and stays charged for the rest of the run.
+6. Walk right along the bottom floor and jump up the steps to the lit exit. Press `R` to reset the fan, walkway, floor, battery, and exit.
