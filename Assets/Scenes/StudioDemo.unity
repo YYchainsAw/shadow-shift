@@ -1294,6 +1294,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 467623836}
+  - component: {fileID: 467623837}
   m_Layer: 0
   m_Name: Active Airflow
   m_TagString: Untagged
@@ -1301,6 +1302,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!114 &467623837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 467623835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96f3db88e550448a968b11cb79b48e69, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Assembly-CSharp::ShadowShift.UpdraftVisual
+  levelSession: {fileID: 782016003}
+  arrows:
+  - {fileID: 2030638454}
+  - {fileID: 751945877}
+  - {fileID: 1711534812}
+  - {fileID: 249254159}
+  - {fileID: 2119527962}
+  minimumY: -7.1
+  maximumY: 7.1
+  riseSpeed: 2.6
 --- !u!4 &467623836
 Transform:
   m_ObjectHideFlags: 0
