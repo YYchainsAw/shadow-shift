@@ -18,6 +18,7 @@ namespace ShadowShift
         [SerializeField] private PhysicalSwitch fanSwitch;
         [SerializeField] private ShadowUpdraft updraft;
         [SerializeField, Min(0.01f)] private float shadowGracePeriod = 1f;
+        [SerializeField] private bool followCharacter = true;
         [SerializeField] private float cameraLookAhead = 2f;
         [SerializeField] private float cameraMinX = -3f;
         [SerializeField] private float cameraMaxX = 29f;
@@ -27,6 +28,7 @@ namespace ShadowShift
         private PlayerAnimation characterAnimation;
         private SpotlightInput spotlightInput;
         private Vector2 suspendedVelocity;
+        private float initialCameraSize;
 
         public StateMachine<LevelState> StateMachine { get; } = new();
         public LevelPlayingState PlayingState { get; private set; }
@@ -38,6 +40,7 @@ namespace ShadowShift
 
         private void Start()
         {
+            initialCameraSize = viewCamera.orthographicSize;
             characterAnimation = characterVisual.GetComponent<PlayerAnimation>();
             form = new CharacterFormController(character.Collider, obstacles, shadowGracePeriod);
             spotlightInput = new SpotlightInput(spotlight);
@@ -62,7 +65,7 @@ namespace ShadowShift
 
         private void LateUpdate()
         {
-            if (StateMachine.CurrentState == PlayingState)
+            if (!followCharacter || StateMachine.CurrentState == PlayingState)
                 UpdateCamera();
         }
 
@@ -131,6 +134,13 @@ namespace ShadowShift
 
         private void UpdateCamera()
         {
+            if (!followCharacter)
+            {
+                float halfMapWidth = (cameraMaxX - cameraMinX) * 0.5f;
+                viewCamera.orthographicSize = Mathf.Max(initialCameraSize, halfMapWidth / viewCamera.aspect);
+                return;
+            }
+
             float halfWidth = viewCamera.orthographicSize * viewCamera.aspect;
             float left = cameraMinX + halfWidth;
             float right = cameraMaxX - halfWidth;

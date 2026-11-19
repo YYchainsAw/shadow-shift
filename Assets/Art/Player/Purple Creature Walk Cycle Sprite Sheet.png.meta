@@ -1,0 +1,537 @@
+fileFormatVersion: 2
+guid: 4c921ae3ed500604b9cac2bbc7fb0411
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 6093374411639859479
+    second: Purple Creature Walk Cycle Sprite Sheet_0
+  - first:
+      213: -6130713696323327481
+    second: Purple Creature Walk Cycle Sprite Sheet_1
+  - first:
+      213: -1665257290471399271
+    second: Purple Creature Walk Cycle Sprite Sheet_2
+  - first:
+      213: -660855197040701862
+    second: Purple Creature Walk Cycle Sprite Sheet_3
+  - first:
+      213: -7233562816143163363
+    second: Purple Creature Walk Cycle Sprite Sheet_4
+  - first:
+      213: -8682053407496750414
+    second: Purple Creature Walk Cycle Sprite Sheet_5
+  - first:
+      213: 1288777215047553404
+    second: Purple Creature Walk Cycle Sprite Sheet_6
+  - first:
+      213: -8575950222565252540
+    second: Purple Creature Walk Cycle Sprite Sheet_7
+  - first:
+      213: 379281495732019233
+    second: Purple Creature Walk Cycle Sprite Sheet_8
+  - first:
+      213: 2688336519259591156
+    second: Purple Creature Walk Cycle Sprite Sheet_9
+  - first:
+      213: -2561416879131003033
+    second: Purple Creature Walk Cycle Sprite Sheet_10
+  - first:
+      213: 818453590953232588
+    second: Purple Creature Walk Cycle Sprite Sheet_11
+  - first:
+      213: 2413734105582756451
+    second: Purple Creature Walk Cycle Sprite Sheet_12
+  - first:
+      213: 5448165029699934166
+    second: Purple Creature Walk Cycle Sprite Sheet_13
+  - first:
+      213: 73248754907378974
+    second: Purple Creature Walk Cycle Sprite Sheet_14
+  - first:
+      213: -6251160270125973043
+    second: Purple Creature Walk Cycle Sprite Sheet_15
+  - first:
+      213: -2934019726133204113
+    second: Purple Creature Walk Cycle Sprite Sheet_16
+  - first:
+      213: 8505703650508919251
+    second: Purple Creature Walk Cycle Sprite Sheet_17
+  - first:
+      213: -4611984844004642510
+    second: Purple Creature Walk Cycle Sprite Sheet_18
+  - first:
+      213: 7707312086861788656
+    second: Purple Creature Walk Cycle Sprite Sheet_19
+  - first:
+      213: 6702281814090623469
+    second: Purple Creature Walk Cycle Sprite Sheet_20
+  - first:
+      213: -9179975952372786048
+    second: Purple Creature Walk Cycle Sprite Sheet_21
+  - first:
+      213: 5810327524294637347
+    second: Purple Creature Walk Cycle Sprite Sheet_22
+  - first:
+      213: -5003292078256651974
+    second: Purple Creature Walk Cycle Sprite Sheet_23
+  - first:
+      213: -6757614817490336158
+    second: Purple Creature Walk Cycle Sprite Sheet_24
+  - first:
+      213: 6564980476372147363
+    second: Purple Creature Walk Cycle Sprite Sheet_25
+  - first:
+      213: 3654229031959043061
+    second: Purple Creature Walk Cycle Sprite Sheet_26
+  - first:
+      213: -654688848092948409
+    second: Purple Creature Walk Cycle Sprite Sheet_27
+  - first:
+      213: -5111060248968416055
+    second: Purple Creature Walk Cycle Sprite Sheet_28
+  - first:
+      213: 228651433745472160
+    second: Purple Creature Walk Cycle Sprite Sheet_29
+  - first:
+      213: -7747092200526971660
+    second: Purple Creature Walk Cycle Sprite Sheet_30
+  - first:
+      213: -3583558786637649069
+    second: Purple Creature Walk Cycle Sprite Sheet_31
+  - first:
+      213: -4003830485878363437
+    second: Purple Creature Walk Cycle Sprite Sheet_32
+  - first:
+      213: -6274997573230055369
+    second: Purple Creature Walk Cycle Sprite Sheet_33
+  - first:
+      213: -8280228356305978397
+    second: Purple Creature Walk Cycle Sprite Sheet_34
+  - first:
+      213: 907987786530621928
+    second: Purple Creature Walk Cycle Sprite Sheet_35
+  - first:
+      213: 3251723763466263204
+    second: Purple Creature Walk Cycle Sprite Sheet_36
+  - first:
+      213: -3653962618118905692
+    second: Purple Creature Walk Cycle Sprite Sheet_37
+  - first:
+      213: 660957392986693547
+    second: Purple Creature Walk Cycle Sprite Sheet_38
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 384
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Purple Creature Walk Cycle Sprite Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 30
+        y: 775
+        width: 301
+        height: 255
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 719af394eb3009450800000000000000
+      internalID: 6093374411639859479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple Creature Walk Cycle Sprite Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 392
+        y: 777
+        width: 297
+        height: 255
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70aa60700645beaa0800000000000000
+      internalID: -6130713696323327481
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple Creature Walk Cycle Sprite Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 776
+        width: 300
+        height: 255
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 990a2d53151d3e8e0800000000000000
+      internalID: -1665257290471399271
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple Creature Walk Cycle Sprite Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 1114
+        y: 775
+        width: 303
+        height: 255
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a5e0b6c13bb24d6f0800000000000000
+      internalID: -660855197040701862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple Creature Walk Cycle Sprite Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 27
+        y: 416
+        width: 320
+        height: 255
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d10005b91f83d9b90800000000000000
+      internalID: -7233562816143163363
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple Creature Walk Cycle Sprite Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 388
+        y: 416
+        width: 306
+        height: 260
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2babf25ec66238780800000000000000
+      internalID: -8682053407496750414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple Creature Walk Cycle Sprite Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 751
+        y: 416
+        width: 308
+        height: 264
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c71d6818c08a2e110800000000000000
+      internalID: 1288777215047553404
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple Creature Walk Cycle Sprite Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 1115
+        y: 416
+        width: 306
+        height: 261
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 442e09cb5ba1cf880800000000000000
+      internalID: -8575950222565252540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple Creature Walk Cycle Sprite Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 50
+        width: 310
+        height: 255
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1206cf6c28a734500800000000000000
+      internalID: 379281495732019233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple Creature Walk Cycle Sprite Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 389
+        y: 50
+        width: 327
+        height: 258
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f19d2322d3ee4520800000000000000
+      internalID: 2688336519259591156
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple Creature Walk Cycle Sprite Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 751
+        y: 50
+        width: 308
+        height: 262
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 767f4bd5be4047cd0800000000000000
+      internalID: -2561416879131003033
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Purple Creature Walk Cycle Sprite Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 1112
+        y: 50
+        width: 307
+        height: 267
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc809e1643bbb5b00800000000000000
+      internalID: 818453590953232588
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: d3babfccfdcb84f448b75ac705b3629b
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Purple Creature Walk Cycle Sprite Sheet_0: 6093374411639859479
+      Purple Creature Walk Cycle Sprite Sheet_1: -6130713696323327481
+      Purple Creature Walk Cycle Sprite Sheet_10: -2561416879131003033
+      Purple Creature Walk Cycle Sprite Sheet_11: 818453590953232588
+      Purple Creature Walk Cycle Sprite Sheet_12: 2413734105582756451
+      Purple Creature Walk Cycle Sprite Sheet_13: 5448165029699934166
+      Purple Creature Walk Cycle Sprite Sheet_14: 73248754907378974
+      Purple Creature Walk Cycle Sprite Sheet_15: -6251160270125973043
+      Purple Creature Walk Cycle Sprite Sheet_16: -2934019726133204113
+      Purple Creature Walk Cycle Sprite Sheet_17: 8505703650508919251
+      Purple Creature Walk Cycle Sprite Sheet_18: -4611984844004642510
+      Purple Creature Walk Cycle Sprite Sheet_19: 7707312086861788656
+      Purple Creature Walk Cycle Sprite Sheet_2: -1665257290471399271
+      Purple Creature Walk Cycle Sprite Sheet_20: 6702281814090623469
+      Purple Creature Walk Cycle Sprite Sheet_21: -9179975952372786048
+      Purple Creature Walk Cycle Sprite Sheet_22: 5810327524294637347
+      Purple Creature Walk Cycle Sprite Sheet_23: -5003292078256651974
+      Purple Creature Walk Cycle Sprite Sheet_24: -6757614817490336158
+      Purple Creature Walk Cycle Sprite Sheet_25: 6564980476372147363
+      Purple Creature Walk Cycle Sprite Sheet_26: 3654229031959043061
+      Purple Creature Walk Cycle Sprite Sheet_27: -654688848092948409
+      Purple Creature Walk Cycle Sprite Sheet_28: -5111060248968416055
+      Purple Creature Walk Cycle Sprite Sheet_29: 228651433745472160
+      Purple Creature Walk Cycle Sprite Sheet_3: -660855197040701862
+      Purple Creature Walk Cycle Sprite Sheet_30: -7747092200526971660
+      Purple Creature Walk Cycle Sprite Sheet_31: -3583558786637649069
+      Purple Creature Walk Cycle Sprite Sheet_32: -4003830485878363437
+      Purple Creature Walk Cycle Sprite Sheet_33: -6274997573230055369
+      Purple Creature Walk Cycle Sprite Sheet_34: -8280228356305978397
+      Purple Creature Walk Cycle Sprite Sheet_35: 907987786530621928
+      Purple Creature Walk Cycle Sprite Sheet_36: 3251723763466263204
+      Purple Creature Walk Cycle Sprite Sheet_37: -3653962618118905692
+      Purple Creature Walk Cycle Sprite Sheet_38: 660957392986693547
+      Purple Creature Walk Cycle Sprite Sheet_4: -7233562816143163363
+      Purple Creature Walk Cycle Sprite Sheet_5: -8682053407496750414
+      Purple Creature Walk Cycle Sprite Sheet_6: 1288777215047553404
+      Purple Creature Walk Cycle Sprite Sheet_7: -8575950222565252540
+      Purple Creature Walk Cycle Sprite Sheet_8: 379281495732019233
+      Purple Creature Walk Cycle Sprite Sheet_9: 2688336519259591156
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -11,6 +11,7 @@ namespace ShadowShift
         [SerializeField] private Transform leftEndpoint;
         [SerializeField] private Transform rightEndpoint;
         [SerializeField] private Shader beamShader;
+        [SerializeField] private Color beamTint = new Color(1f, 0.78f, 0.39f, 0.28f);
         [SerializeField, Min(0.01f)] private float beamLength = 9f;
         [SerializeField, Range(1f, 89f)] private float beamHalfAngle = 26f;
 
@@ -62,7 +63,7 @@ namespace ShadowShift
             beamMesh.triangles = new[] { 0, 1, 2 };
             beam.GetComponent<MeshFilter>().sharedMesh = beamMesh;
 
-            beamMaterial = new Material(beamShader);
+            beamMaterial = new Material(beamShader) { color = beamTint };
             MeshRenderer renderer = beam.GetComponent<MeshRenderer>();
             renderer.sharedMaterial = beamMaterial;
             renderer.sortingOrder = 3;
