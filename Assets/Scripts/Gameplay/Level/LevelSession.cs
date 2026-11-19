@@ -18,6 +18,7 @@ namespace ShadowShift
         [SerializeField] private PhysicalSwitch fanSwitch;
         [SerializeField] private ShadowUpdraft updraft;
         [SerializeField] private ShadowWalkwaySwitch shadowSwitch;
+        [SerializeField] private BreakableFloor breakableFloor;
         [SerializeField, Min(0.01f)] private float shadowGracePeriod = 1f;
         [SerializeField] private bool followCharacter = true;
         [SerializeField] private float cameraLookAhead = 2f;
@@ -68,6 +69,12 @@ namespace ShadowShift
         {
             if (!followCharacter || StateMachine.CurrentState == PlayingState)
                 UpdateCamera();
+        }
+
+        private void FixedUpdate()
+        {
+            if (form != null && StateMachine.CurrentState == PlayingState && breakableFloor != null)
+                breakableFloor.TryBreak(character, form.IsShadow);
         }
 
         internal void UpdateGameplay()
@@ -177,6 +184,8 @@ namespace ShadowShift
             Physics2D.SyncTransforms();
             if (shadowSwitch != null)
                 shadowSwitch.ResetSwitch();
+            if (breakableFloor != null)
+                breakableFloor.ResetFloor();
             form.Reset();
             spotlight.ResetPosition();
             if (fanSwitch != null)
