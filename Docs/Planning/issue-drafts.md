@@ -10,7 +10,7 @@ Source references are the art canvas `canvas_GameOff2026-261112_0303.pdf`, the f
 
 ## Jam deadline and delivery scope
 
-The [official Game Off 2026 page](https://itch.io/jam/game-off-2026) gives the submission deadline as 1 December 2026 at 13:37 PST, or 2 December 2026 at 05:37 UTC+08:00. It also requires a public GitHub source repository. The repository is currently private, so the release task includes confirming public access with the repository owner.
+The [official Game Off 2026 page](https://itch.io/jam/game-off-2026) gives the submission deadline as 1 December 2026 at 13:37 PST, or 2 December 2026 at 05:37 UTC+08:00. It also requires a public GitHub source repository. The release task includes confirming public access with the repository owner.
 
 The proposed jam baseline is one complete level built from the merged ShadowShift route, with readable Physical/Shadow visuals, the light-controlled fan puzzle, contextual controls, failure/restart/completion feedback, and a verified Windows build. The five-world story and the full five-phase Demo Guide provide additional backlog scope.
 

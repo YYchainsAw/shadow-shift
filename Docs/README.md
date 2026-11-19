@@ -1,4 +1,4 @@
-# Shadow Shift documentation
+# shadowshift documentation
 
 ## Start here
 
@@ -11,7 +11,6 @@
 - [Level session state machine](Architecture/UML/level-session-state-machine.drawio.svg) specifies pause, failure, completion, and the shared reset flow.
 - [Spotlight rail setup](Architecture/spotlight-rail.md) covers scene references, left-button dragging, and right-button aiming.
 - [Light footprint and direct movement](Architecture/light-footprint-and-movement.md) defines light sampling, movement input, and the greybox integration checks.
-- [Repository workflow](../CONTRIBUTING.md) covers branches, pull requests, and Unity asset changes.
 
 ## Where documents belong
 

@@ -4,7 +4,7 @@
 
 Build one short 2D puzzle level for Game Off 2026. Target a 5–8 minute first playthrough. The player moves the character with A/D, jumps with W, and switches between Physical and Shadow forms with Left Shift. Hold the left mouse button to drag the spotlight horizontally along its rail, and hold the right mouse button to rotate its beam toward the cursor. The final puzzle asks the player to cross a wall as Shadow while keeping the character lit.
 
-The first playable greybox is due **13 November**. Aim to submit by **29 November at 21:00 UTC+08:00 (13:00 UTC)**. The official deadline is **2 December at 05:37 UTC+08:00 (1 December at 21:37 UTC)**. Submit a playable build through the [Game Off jam page](https://itch.io/jam/game-off-2026) and link the public GitHub source repository. The repository is currently private. The release owner should verify public access by the internal deadline. [Official submission FAQ](https://itch.io/jam/game-off-2026/topic/7290154/frequently-asked-questions-faq)
+The first playable greybox is due **13 November**. Aim to submit by **29 November at 21:00 UTC+08:00 (13:00 UTC)**. The official deadline is **2 December at 05:37 UTC+08:00 (1 December at 21:37 UTC)**. Submit a playable build through the [Game Off jam page](https://itch.io/jam/game-off-2026) and link the public GitHub source repository. The release owner should verify public access by the internal deadline. [Official submission FAQ](https://itch.io/jam/game-off-2026/topic/7290154/frequently-asked-questions-faq)
 
 ## First 48 hours
 
@@ -76,7 +76,7 @@ If the 13 November build cannot be completed, keep one flat route and cut layere
 
 - Write issues, PRs, commits, shared design notes, and player-facing text in English. Use chat for discussion and record the decision and owner in the relevant GitHub issue.
 - Every one or two days, post `Done / Next / Blocked`. Include a PR, screenshot, or build link when available. Use explicit time zones in messages with deadlines.
-- Follow [the repository workflow](../CONTRIBUTING.md). Open focused PRs, link issues with `Closes #123`, and include verification steps. Add the corresponding `.meta` files and use the existing Git LFS rules for assets. The main scene owner integrates changes into the playable level.
+- Open focused PRs, link issues with `Closes #123`, and include verification steps. Add the corresponding `.meta` files and use the existing Git LFS rules for assets. The main scene owner integrates changes into the playable level.
 
 ## Kickoff message for the team
 
