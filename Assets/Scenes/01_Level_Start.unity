@@ -665,7 +665,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 700065576, guid: 2fd6ded87264c5e40b3f60a109895fa4, type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1031,7 +1031,7 @@ Transform:
   m_GameObject: {fileID: 1549358884}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.2011285, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1086,7 +1086,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 3427114271967980436, guid: 01331eddaf61e5c4c8245d3cef7d912d, type: 3}
+  m_Sprite: {fileID: -1665257290471399271, guid: 4c921ae3ed500604b9cac2bbc7fb0411, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1130,7 +1130,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b8fa05323028b844bbcc9e60b4bac39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShadowShift.PlayerAnimation
-  shadowController: {fileID: 22100000, guid: dcbcd92c174dd68419001d41aab8af70, type: 2}
+  shadowController: {fileID: 0}
 --- !u!1 &1576901161
 GameObject:
   m_ObjectHideFlags: 0
@@ -1262,7 +1262,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 700065576, guid: 2fd6ded87264c5e40b3f60a109895fa4, type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1387,11 +1387,11 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -100
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 2100802605, guid: 2fd6ded87264c5e40b3f60a109895fa4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0ca1acd5256e48bb894569ddcc66cc78, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
-  m_DrawMode: 2
+  m_DrawMode: 1
   m_Size: {x: 32, y: 15}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0

@@ -75,7 +75,7 @@ Record one agreed export and integration reference for the artists and programme
 
 ### Additional context
 
-Use `Assets/Scenes/ShadowShift.unity`, `Assets/Art/Environment/Tilesets/Platform.png`, and `Docs/Development/first-playable.md` as the current integration references. Art exploration and roughs can proceed while the export values are recorded.
+Use `Assets/Scenes/StudioDemo.unity`, `Assets/Art/Environment/Studio/Platforms/`, and `Docs/Development/first-playable.md` as the current integration references. Art exploration and roughs can proceed while the export values are recorded.
 
 ## A02 · Create Physical character animations
 
@@ -176,7 +176,7 @@ Deliver matched dark and illuminated tiles for walkable ground, walls passable i
 
 ### Additional context
 
-Use `Platform.png` as the current scale and slicing sample. The rule implementation for cracked floors is tracked in G05. Illumination rendering and occlusion are tracked in G04.
+Use `ThinPlatform.png` and `ThickPlatform.png` in the Studio platform assets as the current SpriteRenderer sizing and import examples. The rule implementation for cracked floors is tracked in G05. Illumination rendering and occlusion are tracked in G04.
 
 ## A07 · Create the pressure plate, fan, and updraft artwork
 
