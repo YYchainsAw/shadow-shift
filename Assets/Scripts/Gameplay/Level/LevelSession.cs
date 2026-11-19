@@ -17,6 +17,7 @@ namespace ShadowShift
         [SerializeField] private FormObstacle[] obstacles;
         [SerializeField] private PhysicalSwitch fanSwitch;
         [SerializeField] private ShadowUpdraft updraft;
+        [SerializeField] private ShadowWalkwaySwitch shadowSwitch;
         [SerializeField, Min(0.01f)] private float shadowGracePeriod = 1f;
         [SerializeField] private bool followCharacter = true;
         [SerializeField] private float cameraLookAhead = 2f;
@@ -92,6 +93,9 @@ namespace ShadowShift
             }
 
             UpdateUpdraft();
+            if (shadowSwitch != null && shadowSwitch.TryPress(footPosition, form.IsShadow))
+                form.ApplyCollisionRules(form.IsShadow);
+
             if (form.IsOutsideLight)
                 character.StopSteering();
             else
@@ -171,6 +175,8 @@ namespace ShadowShift
             ResumeSimulation();
             character.ResetMotion(spawnPoint.position);
             Physics2D.SyncTransforms();
+            if (shadowSwitch != null)
+                shadowSwitch.ResetSwitch();
             form.Reset();
             spotlight.ResetPosition();
             if (fanSwitch != null)
