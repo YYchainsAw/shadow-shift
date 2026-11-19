@@ -18,6 +18,7 @@ namespace ShadowShift
         private float chargeTime;
 
         public bool IsCharged => chargeTime >= chargeDuration;
+        internal float ChargeProgress => Mathf.Clamp01(chargeTime / chargeDuration);
 
         internal void ChargeFrom(SpotlightRail light, float deltaTime)
         {

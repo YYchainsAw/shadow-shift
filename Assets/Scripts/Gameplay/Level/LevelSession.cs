@@ -39,6 +39,7 @@ namespace ShadowShift
         public LevelFailedState FailedState { get; private set; }
         public LevelCompletedState CompletedState { get; private set; }
         public string StateName => StateMachine.CurrentState.Name;
+        internal bool IsShadow => form != null && form.IsShadow;
         internal bool PausePressed => Keyboard.current?.escapeKey.wasPressedThisFrame == true;
 
         private void Start()

@@ -64,6 +64,8 @@ Record whether players can move, jump, and aim comfortably at the same time, and
 
 Open [StudioDemo.unity](../../Assets/Scenes/StudioDemo.unity) to test the art pass with a fixed view of the whole room.
 
+For a first-time playtest, let the player follow the in-game prompts before sharing the route below. Watch whether they can identify what each switch powers, where to enter the updraft, and why the exit stays dark. The battery meter shows retained charge once the floor breaks.
+
 1. Pass through the middle blue wall as Shadow and press the green fan switch as Physical.
 2. Return left under the beam to the lower purple switch. Step on it as Shadow to light and enable the upper purple walkway. Physical leaves the switch idle.
 3. Cross the lower route as Physical and jump right to the platform beyond the fan. From there, jump left and enter Shadow in the lit right side of the updraft. Rise beside the purple walkway before moving left to land on it as Shadow.
