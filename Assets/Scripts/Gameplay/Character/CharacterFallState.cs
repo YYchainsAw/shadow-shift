@@ -10,12 +10,24 @@ namespace ShadowShift
         public override void Enter()
         {
             gravityBeforeFall = Character.Body.gravityScale;
-            Character.Body.gravityScale = gravityBeforeFall * Character.FallGravityMultiplier;
+            ApplyFormPhysics();
+        }
+
+        public override void Update()
+        {
+            base.Update();
+            if (StateMachine.CurrentState == this)
+                ApplyFormPhysics();
         }
 
         public override void Exit()
         {
             Character.Body.gravityScale = gravityBeforeFall;
+        }
+
+        internal void ApplyFormPhysics()
+        {
+            Character.ApplyFallPhysics(gravityBeforeFall);
         }
     }
 }

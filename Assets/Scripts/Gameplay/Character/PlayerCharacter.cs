@@ -17,6 +17,8 @@ namespace ShadowShift
         [Header("Jump and Fall")]
         [SerializeField, Min(0.01f)] private float jumpSpeed = 5.7f;
         [SerializeField, Min(1f)] private float fallGravityMultiplier = 1.4f;
+        [SerializeField, Range(0.01f, 1f)] private float shadowFallGravityMultiplier = 0.7f;
+        [SerializeField, Min(0.01f)] private float shadowMaxFallSpeed = 4.5f;
 
         private readonly RaycastHit2D[] groundHits = new RaycastHit2D[8];
         private readonly ContactPoint2D[] contacts = new ContactPoint2D[8];
@@ -24,8 +26,10 @@ namespace ShadowShift
         private ContactFilter2D groundFilter;
         private float moveInput;
         private bool jumpRequested;
+        private bool isShadow;
         private ShadowUpdraft updraft;
         private SpotlightRail updraftLight;
+        private SpotlightRail additionalUpdraftLight;
 
         public StateMachine<CharacterState> StateMachine { get; } = new();
         public CharacterIdleState IdleState { get; private set; }
@@ -40,7 +44,6 @@ namespace ShadowShift
 
         internal float MoveInput => moveInput;
         internal bool JumpRequested => jumpRequested;
-        internal float FallGravityMultiplier => fallGravityMultiplier;
 
         public Vector2 FootPosition
         {
@@ -113,10 +116,21 @@ namespace ShadowShift
             StateMachine.ChangeState(IdleState);
         }
 
-        internal void SetUpdraft(ShadowUpdraft field, SpotlightRail light)
+        internal void SetUpdraft(ShadowUpdraft field, SpotlightRail light, SpotlightRail additionalLight = null)
         {
             updraft = field;
             updraftLight = light;
+            additionalUpdraftLight = additionalLight;
+        }
+
+        internal void SetShadowForm(bool shadow)
+        {
+            if (isShadow == shadow)
+                return;
+
+            isShadow = shadow;
+            if (StateMachine.CurrentState == FallState)
+                FallState.ApplyFormPhysics();
         }
 
         private void FixedUpdate()
@@ -146,6 +160,27 @@ namespace ShadowShift
             Body.linearVelocityY = jumpSpeed;
         }
 
+        internal void ApplyFallPhysics(float baseGravity)
+        {
+            float gravity = baseGravity * (isShadow ? shadowFallGravityMultiplier : fallGravityMultiplier);
+            if (isShadow)
+            {
+                float verticalSpeed = Body.linearVelocityY;
+                if (verticalSpeed < -shadowMaxFallSpeed)
+                {
+                    verticalSpeed = -shadowMaxFallSpeed;
+                    Body.linearVelocityY = verticalSpeed;
+                }
+
+                // Limit this physics step's gravity so it does not push the Shadow past its fall speed.
+                float gravityStep = -Physics2D.gravity.y * Time.fixedDeltaTime;
+                if (gravityStep > 0f)
+                    gravity = Mathf.Min(gravity, (verticalSpeed + shadowMaxFallSpeed) / gravityStep);
+            }
+
+            Body.gravityScale = gravity;
+        }
+
         internal bool TryApplyUpdraft()
         {
             if (!CanUseUpdraft())
@@ -164,7 +199,8 @@ namespace ShadowShift
                 return false;
 
             Vector2 footPosition = FootPosition;
-            return updraft.Contains(footPosition) && updraftLight.Contains(footPosition);
+            return updraft.Contains(footPosition) && (updraftLight.Contains(footPosition)
+                || (additionalUpdraftLight != null && additionalUpdraftLight.Contains(footPosition)));
         }
 
         internal bool IsGrounded()

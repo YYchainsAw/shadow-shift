@@ -5,13 +5,20 @@ namespace ShadowShift
 {
     internal sealed class SpotlightInput
     {
-        private readonly SpotlightRail spotlight;
         private Mouse draggingMouse;
         private bool waitForMouseRelease;
 
         public SpotlightInput(SpotlightRail spotlight)
         {
-            this.spotlight = spotlight;
+            ControlledSpotlight = spotlight;
+        }
+
+        public SpotlightRail ControlledSpotlight { get; private set; }
+
+        public void Select(SpotlightRail spotlight, Mouse mouse)
+        {
+            ControlledSpotlight = spotlight;
+            Reset(mouse);
         }
 
         public void Update(Mouse mouse)
@@ -32,16 +39,16 @@ namespace ShadowShift
             if (mouse.leftButton.isPressed)
             {
                 if (draggingMouse != mouse || mouse.leftButton.wasPressedThisFrame)
-                    spotlight.BeginControl(pointer);
+                    ControlledSpotlight.BeginControl(pointer);
                 else
-                    spotlight.MovePointer(pointer);
+                    ControlledSpotlight.MovePointer(pointer);
                 draggingMouse = mouse;
             }
             else
                 draggingMouse = null;
 
             if (mouse.rightButton.isPressed)
-                spotlight.AimPointer(pointer);
+                ControlledSpotlight.AimPointer(pointer);
         }
 
         public void Reset(Mouse mouse)

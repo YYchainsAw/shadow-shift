@@ -28,6 +28,7 @@ namespace ShadowShift
         private Vector2? previousPointerPosition;
         private Mesh beamMesh;
         private Material beamMaterial;
+        private MeshRenderer beamRenderer;
         private List<BeamEdge> beamEdges;
         private List<float> beamBreaks;
         private List<Vector3> beamVertices;
@@ -36,6 +37,7 @@ namespace ShadowShift
         public Vector3 WorldPosition => transform.position;
         public float BeamLength { get; private set; }
         public float BeamHalfWidth => BeamLength * beamSlope;
+        internal bool IsPowered { get; private set; } = true;
         private bool HasOccluders => beamOccluders != null && beamOccluders.Length > 0;
 
         private void Awake()
@@ -60,7 +62,7 @@ namespace ShadowShift
 
         private void LateUpdate()
         {
-            if (HasOccluders && BeamLength > 0f)
+            if (IsPowered && HasOccluders && BeamLength > 0f)
                 UpdateBeamMesh();
         }
 
@@ -83,9 +85,17 @@ namespace ShadowShift
             beam.GetComponent<MeshFilter>().sharedMesh = beamMesh;
 
             beamMaterial = new Material(beamShader) { color = beamTint };
-            MeshRenderer renderer = beam.GetComponent<MeshRenderer>();
-            renderer.sharedMaterial = beamMaterial;
-            renderer.sortingOrder = 3;
+            beamRenderer = beam.GetComponent<MeshRenderer>();
+            beamRenderer.sharedMaterial = beamMaterial;
+            beamRenderer.sortingOrder = 3;
+            beamRenderer.enabled = IsPowered;
+        }
+
+        internal void SetPowered(bool powered)
+        {
+            IsPowered = powered;
+            if (beamRenderer != null)
+                beamRenderer.enabled = powered;
         }
 
         public void BeginControl(Vector2 pointerScreenPosition)
@@ -125,6 +135,9 @@ namespace ShadowShift
 
         public bool Contains(Vector2 worldPosition)
         {
+            if (!IsPowered)
+                return false;
+
             Vector3 local = transform.InverseTransformPoint(new Vector3(worldPosition.x, worldPosition.y, WorldPosition.z));
             float depth = -local.y;
             bool inBeam = depth >= -BeamEdgeTolerance && depth <= BeamLength + BeamEdgeTolerance

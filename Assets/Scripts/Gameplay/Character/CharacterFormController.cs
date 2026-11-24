@@ -3,6 +3,13 @@ using UnityEngine;
 
 namespace ShadowShift
 {
+    internal enum ShiftRejection
+    {
+        None,
+        NeedsLight,
+        Obstructed
+    }
+
     internal sealed class CharacterFormController
     {
         private const float OverlapTolerance = 0.001f;
@@ -31,17 +38,18 @@ namespace ShadowShift
         internal bool IsLit { get; private set; }
         internal float DeltaTime { get; private set; }
 
-        public void TryShift(bool isLit)
+        public ShiftRejection TryShift(bool isLit)
         {
             if (!IsShadow && !isLit)
-                return;
+                return ShiftRejection.NeedsLight;
 
             bool destinationIsShadow = !IsShadow;
             if (!CanOccupy(destinationIsShadow))
-                return;
+                return ShiftRejection.Obstructed;
 
             IsLit = isLit;
             stateMachine.ChangeState(destinationIsShadow ? ShadowState : PhysicalState);
+            return ShiftRejection.None;
         }
 
         public bool UpdateStability(bool isLit, float deltaTime)

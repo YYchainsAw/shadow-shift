@@ -20,20 +20,18 @@ namespace ShadowShift
         public bool IsCharged => chargeTime >= chargeDuration;
         internal float ChargeProgress => Mathf.Clamp01(chargeTime / chargeDuration);
 
-        internal void ChargeFrom(SpotlightRail light, float deltaTime)
+        internal bool ChargeFrom(SpotlightRail light, float deltaTime)
         {
             if (IsCharged || deltaTime <= 0f || !light.Contains(transform.position))
-                return;
+                return false;
 
             bool startedCharging = chargeTime == 0f;
             chargeTime = Mathf.Min(chargeTime + deltaTime, chargeDuration);
             if (IsCharged)
-            {
                 SetBatterySprite(fullSprite);
-                SetExitPower(true);
-            }
             else if (startedCharging)
                 SetBatterySprite(chargingSprite);
+            return IsCharged;
         }
 
         internal void ResetCharge()
@@ -49,7 +47,7 @@ namespace ShadowShift
                 batteryVisual.sprite = sprite;
         }
 
-        private void SetExitPower(bool powered)
+        internal void SetExitPower(bool powered)
         {
             if (exitVisual != null)
                 exitVisual.sprite = powered ? poweredExitSprite : lockedExitSprite;

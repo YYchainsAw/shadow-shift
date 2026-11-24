@@ -31,7 +31,7 @@ The default build scene list starts with `ShadowShift`.
 | Scene element | Current behavior | Planned behavior |
 | --- | --- | --- |
 | Lower purple switch and upper blue platform | The purple switch is a visual marker. The upper blue platform is active from the start and supports Physical. | Shadow activates the purple switch to enable the upper route. |
-| Descent to the lower platforms | Both forms use the same fall gravity multiplier. | Shadow descends more slowly for the approach to the lower switch. |
+| Descent to the lower platforms | Shadow uses lower fall gravity and a fall speed limit. | Use the slower Shadow descent to steer toward the lower switch. |
 | Purple wall and cracked floor | The purple wall blocks Shadow. The cracked floor is solid for both forms. Light coverage depends on the beam cone. | The purple wall and intact cracked floor occlude the beam. A sufficiently hard Physical landing breaks the floor and opens a path for the light. |
 | Battery and next room | The battery is a visual marker. The bottom-right trigger completes the current playtest on contact. | Light reaching the battery through the opening charges it. A full battery powers the next room's lamp and enables the lamp control handoff. |
 
@@ -64,11 +64,28 @@ Record whether players can move, jump, and aim comfortably at the same time, and
 
 Open [StudioDemo.unity](../../Assets/Scenes/StudioDemo.unity) to test the art pass with a fixed view of the whole room.
 
+During descent, Shadow uses 0.7× gravity and a 4.5-unit/s fall speed limit by default. Physical uses 1.4× gravity to build impact speed. A successful midair shift applies the new descent settings immediately. Tune both forms in the Player's **Jump and Fall** settings.
+
+The objective panel briefly explains why a shift was denied. If Shadow leaves the beam, the panel shows the remaining stability time, which freezes on pause. Relighting the character's feet restores steering. Expired stability shows a restart message and resets the room.
+
 For a first-time playtest, let the player follow the in-game prompts before sharing the route below. Watch whether they can identify what each switch powers, where to enter the updraft, and why the exit stays dark. The battery meter shows retained charge once the floor breaks.
 
 1. Pass through the middle blue wall as Shadow and press the green fan switch as Physical.
-2. Return left under the beam to the lower purple switch. Step on it as Shadow to light and enable the upper purple walkway. Physical leaves the switch idle.
-3. Cross the lower route as Physical and jump right to the platform beyond the fan. From there, jump left and enter Shadow in the lit right side of the updraft. Rise beside the purple walkway before moving left to land on it as Shadow.
-4. Walk to the left end of the upper purple walkway. Switch to Physical under the light and fall onto the center of the cracked floor. An ordinary jump or a Shadow landing leaves the floor intact.
-5. Slide the lamp over the opening and aim it at the battery. Keep the light on the battery for 1.25 seconds total. Charge pauses when the battery is in shadow and resumes from the same amount when relit. A full battery lights the exit and stays charged for the rest of the run.
-6. Walk right along the bottom floor and jump up the steps to the lit exit. Press `R` to reset the fan, walkway, floor, battery, and exit.
+2. Shift to Shadow to go back left through the blue wall. Follow the light down to the lower purple switch and touch it as Shadow to enable the upper walkway.
+3. Shift to Physical to pass the lower purple wall. Jump right across the fan gap. After landing, aim the lamp at the right edge of the wind, then jump back left and shift to Shadow. Wait until your feet are above the purple walkway before moving left to land on it.
+4. Walk to the left end of the upper purple walkway. Switch to Physical under the light and steer toward the center of the cracked floor as you fall. The drop from the upper walkway supplies the impact needed to break it. A drop from the fan switch platform leaves it intact.
+5. Slide the first lamp over the opening and aim it at the battery. Keep the light on the battery for 1.25 seconds total. Charge pauses in darkness and resumes from the same amount when relit. A full battery powers the second lamp for the rest of the run.
+6. Walk right along the lower floor to the **Lamp 2 ready** marker. The first lamp locks in place and the mouse takes control of the second lamp. Release held buttons before starting a new gesture.
+7. Drag lamp 2 left to light your feet at the blue wall. Shift to Shadow and jump through the wall toward the stairs. Keep your feet in the second beam as you enter the exit. Press `R` to reset both lamps, their controls, and the room mechanisms.
+
+### Sound effects
+
+The Studio Demo uses the following Kenney clips under [CC0 1.0](https://creativecommons.org/publicdomain/zero/1.0/). The project copies retain the original audio with filenames based on their in-game cues.
+
+| Cue | Original file | Source |
+| --- | --- | --- |
+| Shift | `maximize_003.ogg` | [Interface Sounds](https://kenney.nl/assets/interface-sounds) |
+| Cracked floor breaks | `impactMining_002.ogg` | [Impact Sounds](https://kenney.nl/assets/impact-sounds) |
+| Battery fully charged | `confirmation_004.ogg` | [Interface Sounds](https://kenney.nl/assets/interface-sounds) |
+| Control switches to lamp 2 | `toggle_001.ogg` | [Interface Sounds](https://kenney.nl/assets/interface-sounds) |
+| Room complete | `Pizzicato jingles/jingles_PIZZI02.ogg` | [Music Jingles](https://kenney.nl/assets/music-jingles) |
