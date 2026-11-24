@@ -16,7 +16,7 @@ namespace ShadowShift
         public override void Update()
         {
             if (Time.unscaledTime >= restartTime)
-                Session.RestartLevel();
+                Session.RestartAfterFailure();
         }
     }
 }

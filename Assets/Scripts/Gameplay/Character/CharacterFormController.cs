@@ -38,17 +38,22 @@ namespace ShadowShift
         internal bool IsLit { get; private set; }
         internal float DeltaTime { get; private set; }
 
-        public ShiftRejection TryShift(bool isLit)
+        public ShiftRejection CheckShift(bool isLit)
         {
             if (!IsShadow && !isLit)
                 return ShiftRejection.NeedsLight;
 
-            bool destinationIsShadow = !IsShadow;
-            if (!CanOccupy(destinationIsShadow))
-                return ShiftRejection.Obstructed;
+            return CanOccupy(!IsShadow) ? ShiftRejection.None : ShiftRejection.Obstructed;
+        }
+
+        public ShiftRejection TryShift(bool isLit)
+        {
+            ShiftRejection rejection = CheckShift(isLit);
+            if (rejection != ShiftRejection.None)
+                return rejection;
 
             IsLit = isLit;
-            stateMachine.ChangeState(destinationIsShadow ? ShadowState : PhysicalState);
+            stateMachine.ChangeState(IsShadow ? PhysicalState : ShadowState);
             return ShiftRejection.None;
         }
 

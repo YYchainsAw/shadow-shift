@@ -14,6 +14,8 @@ namespace ShadowShift
         [SerializeField, Tooltip("Optional. The second lamp takes over when the battery is charged and the player enters the handoff region.")]
         private SpotlightRail nextSpotlight;
         [SerializeField] private Collider2D lampHandoff;
+        [SerializeField, Tooltip("Optional. Respawn here after failing once the second lamp has been taken over.")]
+        private Transform lampRetryPoint;
         [SerializeField] private Transform spawnPoint;
         [SerializeField, Tooltip("Optional. Reaching this trigger completes the level.")]
         private Collider2D exit;
@@ -55,8 +57,11 @@ namespace ShadowShift
         public LevelCompletedState CompletedState { get; private set; }
         public string StateName => StateMachine.CurrentState.Name;
         internal bool IsShadow => form != null && form.IsShadow;
+        internal bool CanShift => form != null
+            && form.CheckShift(form.IsShadow || IsLitAt(character.FootPosition, out _)) == ShiftRejection.None;
         internal bool HasLampHandoff => battery != null && nextSpotlight != null && lampHandoff != null;
         internal bool ControlsNextSpotlight => HasLampHandoff && spotlightInput?.ControlledSpotlight == nextSpotlight;
+        internal bool CanRetryAtLamp => ControlsNextSpotlight && lampRetryPoint != null;
         internal bool IsExitUnlocked => (battery == null || battery.IsCharged) && (!HasLampHandoff || ControlsNextSpotlight);
         internal Vector3 LampHandoffPosition => lampHandoff.bounds.center;
         internal float? ShadowTimeRemaining => form != null && form.IsOutsideLight ? form.TimeRemaining : null;
@@ -113,8 +118,7 @@ namespace ShadowShift
             spotlightInput.Update(mouse);
 
             Vector2 footPosition = character.FootPosition;
-            bool isLitByNextSpotlight = HasLampHandoff && nextSpotlight.Contains(footPosition);
-            bool isLit = isLitByNextSpotlight || spotlight.Contains(footPosition);
+            bool isLit = IsLitAt(footPosition, out bool isLitByNextSpotlight);
             shiftRejectionTimeRemaining = isLit && shiftRejection == ShiftRejection.NeedsLight
                 ? 0f
                 : Mathf.Max(0f, shiftRejectionTimeRemaining - Time.deltaTime);
@@ -162,6 +166,12 @@ namespace ShadowShift
                 UpdateCharacterInput(keyboard);
 
             UpdateCharacterVisual();
+        }
+
+        private bool IsLitAt(Vector2 position, out bool isLitByNextSpotlight)
+        {
+            isLitByNextSpotlight = HasLampHandoff && nextSpotlight.Contains(position);
+            return isLitByNextSpotlight || spotlight.Contains(position);
         }
 
         private bool Overlaps(Collider2D trigger)
@@ -238,20 +248,12 @@ namespace ShadowShift
 
         internal void RestartLevel()
         {
-            ResumeSimulation();
-            if (soundEffects != null)
-                soundEffects.Stop();
-            shiftRejectionTimeRemaining = 0f;
-            character.ResetMotion(spawnPoint.position);
-            Physics2D.SyncTransforms();
             if (shadowSwitch != null)
                 shadowSwitch.ResetSwitch();
             if (breakableFloor != null)
                 breakableFloor.ResetFloor();
             if (battery != null)
                 battery.ResetCharge();
-            form.Reset();
-            character.SetShadowForm(form.IsShadow);
             spotlight.ResetPosition();
             if (nextSpotlight != null)
             {
@@ -263,6 +265,32 @@ namespace ShadowShift
                 fanSwitch.ResetSwitch();
             if (updraft != null)
                 updraft.SetActive(false);
+            ResetPlayerAt(spawnPoint);
+        }
+
+        internal void RestartAfterFailure()
+        {
+            if (!CanRetryAtLamp)
+            {
+                RestartLevel();
+                return;
+            }
+
+            nextSpotlight.ResetPosition();
+            ResetPlayerAt(lampRetryPoint);
+        }
+
+        private void ResetPlayerAt(Transform point)
+        {
+            ResumeSimulation();
+            if (soundEffects != null)
+                soundEffects.Stop();
+            shiftRejection = ShiftRejection.None;
+            shiftRejectionTimeRemaining = 0f;
+            character.ResetMotion(point.position);
+            Physics2D.SyncTransforms();
+            form.Reset();
+            character.SetShadowForm(form.IsShadow);
             UpdateCharacterVisual();
             UpdateCamera();
             StateMachine.ChangeState(PlayingState);

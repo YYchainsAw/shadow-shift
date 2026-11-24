@@ -6,9 +6,13 @@ namespace ShadowShift
     [RequireComponent(typeof(BoxCollider2D))]
     public sealed class ShadowUpdraft : MonoBehaviour
     {
+        private const float LandingSurfaceTolerance = 0.03f;
+
         [SerializeField, Min(0.01f)] private float riseSpeed = 4.4f;
         [SerializeField, Min(0.01f)] private float acceleration = 28f;
         [SerializeField] private GameObject activeVisual;
+        [SerializeField, Tooltip("Optional. Lift ends over the top of this platform so Shadow can land.")]
+        private BoxCollider2D landingPlatform;
 
         private BoxCollider2D area;
 
@@ -36,7 +40,14 @@ namespace ShadowShift
 
         internal bool Contains(Vector2 footPosition)
         {
-            return IsActive && isActiveAndEnabled && area.enabled && area.OverlapPoint(footPosition);
+            if (!IsActive || !isActiveAndEnabled || !area.enabled || !area.OverlapPoint(footPosition))
+                return false;
+            if (landingPlatform == null || !landingPlatform.enabled)
+                return true;
+
+            Bounds landing = landingPlatform.bounds;
+            return footPosition.y < landing.max.y - LandingSurfaceTolerance
+                || footPosition.x < landing.min.x || footPosition.x > landing.max.x;
         }
     }
 }
