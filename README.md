@@ -10,8 +10,8 @@ Install Git LFS, then clone the project.
 
 ```bash
 git lfs install
-git clone https://github.com/YYchainsAw/unity-shift-jam.git
-cd unity-shift-jam
+git clone https://github.com/YYchainsAw/shadow-shift.git
+cd shadow-shift
 git lfs pull
 ```
 
