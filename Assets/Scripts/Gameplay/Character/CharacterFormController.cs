@@ -48,6 +48,8 @@ namespace ShadowShift
 
         public ShiftRejection TryShift(bool isLit)
         {
+            // Script-moved colliders must be current before an actual form change.
+            Physics2D.SyncTransforms();
             ShiftRejection rejection = CheckShift(isLit);
             if (rejection != ShiftRejection.None)
                 return rejection;
@@ -75,7 +77,6 @@ namespace ShadowShift
 
         private bool CanOccupy(bool shadow)
         {
-            Physics2D.SyncTransforms();
             foreach (FormObstacle obstacle in obstacles)
             {
                 // Both forms use the same collider. Shared blockers already constrain the current pose.

@@ -49,6 +49,7 @@ namespace ShadowShift
         private float initialCameraSize;
         private ShiftRejection shiftRejection;
         private float shiftRejectionTimeRemaining;
+        private bool canShift;
 
         public StateMachine<LevelState> StateMachine { get; } = new();
         public LevelPlayingState PlayingState { get; private set; }
@@ -57,8 +58,7 @@ namespace ShadowShift
         public LevelCompletedState CompletedState { get; private set; }
         public string StateName => StateMachine.CurrentState.Name;
         internal bool IsShadow => form != null && form.IsShadow;
-        internal bool CanShift => form != null
-            && form.CheckShift(form.IsShadow || IsLitAt(character.FootPosition, out _)) == ShiftRejection.None;
+        internal bool CanShift => canShift;
         internal bool HasLampHandoff => battery != null && nextSpotlight != null && lampHandoff != null;
         internal bool ControlsNextSpotlight => HasLampHandoff && spotlightInput?.ControlledSpotlight == nextSpotlight;
         internal bool CanRetryAtLamp => ControlsNextSpotlight && lampRetryPoint != null;
@@ -132,6 +132,9 @@ namespace ShadowShift
                 if (shiftRejection == ShiftRejection.None)
                     PlaySound(shiftSound, 0.75f);
             }
+
+            // Computed once per frame for the prompt instead of on every read.
+            canShift = form.CheckShift(form.IsShadow || isLit) == ShiftRejection.None;
 
             bool expired = form.UpdateStability(isLit, Time.deltaTime);
             if (expired || footPosition.y < fallBoundary || Overlaps(hazard))
@@ -287,6 +290,7 @@ namespace ShadowShift
                 soundEffects.Stop();
             shiftRejection = ShiftRejection.None;
             shiftRejectionTimeRemaining = 0f;
+            canShift = false;
             character.ResetMotion(point.position);
             Physics2D.SyncTransforms();
             form.Reset();
