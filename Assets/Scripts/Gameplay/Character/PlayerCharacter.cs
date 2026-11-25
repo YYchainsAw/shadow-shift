@@ -32,6 +32,10 @@ namespace ShadowShift
         private float jumpBufferRemaining;
         private float coyoteTimeRemaining;
         private bool isShadow;
+        private bool groundCacheValid;
+        private bool groundCacheResult;
+        private bool groundCacheInFixedStep;
+        private float groundCacheTime;
         private ShadowUpdraft updraft;
         private SpotlightRail updraftLight;
         private SpotlightRail additionalUpdraftLight;
@@ -117,6 +121,7 @@ namespace ShadowShift
             ClearInput();
             SetUpdraft(null, null);
             Body.position = spawnPosition;
+            InvalidateGroundCache();
             Body.linearVelocity = Vector2.zero;
             Body.angularVelocity = 0f;
             coyoteTimeRemaining = 0f;
@@ -137,6 +142,7 @@ namespace ShadowShift
                 return;
 
             isShadow = shadow;
+            InvalidateGroundCache(); // Collision rules differ per form.
             if (StateMachine.CurrentState == FallState)
                 FallState.ApplyFormPhysics();
         }
@@ -222,6 +228,27 @@ namespace ShadowShift
             if (Body.linearVelocityY > 0.05f)
                 return false;
 
+            // The pose only changes when physics steps, so reuse the cast within one phase of a step.
+            float stepTime = Time.fixedTime;
+            bool inFixedStep = Time.inFixedTimeStep;
+            if (groundCacheValid && groundCacheTime == stepTime && groundCacheInFixedStep == inFixedStep)
+                return groundCacheResult;
+
+            groundCacheResult = CastForGround();
+            groundCacheTime = stepTime;
+            groundCacheInFixedStep = inFixedStep;
+            groundCacheValid = true;
+            return groundCacheResult;
+        }
+
+        /// <summary>Call after anything that changes the ground under the character outside physics.</summary>
+        internal void InvalidateGroundCache()
+        {
+            groundCacheValid = false;
+        }
+
+        private bool CastForGround()
+        {
             // Query the current pose after a restart or a form's collision change.
             int count = bodyCollider.Cast(Vector2.down, groundFilter, groundHits, GroundDistance);
             float footY = FootPosition.y;

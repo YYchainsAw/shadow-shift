@@ -103,7 +103,10 @@ namespace ShadowShift
         {
             if (form != null && StateMachine.CurrentState == PlayingState && breakableFloor != null
                 && breakableFloor.TryBreak(character, form.IsShadow))
+            {
+                character.InvalidateGroundCache();
                 PlaySound(floorBreakSound);
+            }
         }
 
         internal void UpdateGameplay()
@@ -161,7 +164,10 @@ namespace ShadowShift
 
             UpdateUpdraft();
             if (shadowSwitch != null && shadowSwitch.TryPress(footPosition, form.IsShadow))
+            {
                 form.ApplyCollisionRules(form.IsShadow);
+                character.InvalidateGroundCache();
+            }
 
             if (form.IsOutsideLight)
                 character.StopSteering();
@@ -316,6 +322,7 @@ namespace ShadowShift
                 character.Body.simulated = true;
                 character.Body.linearVelocity = suspendedVelocity;
                 form.ApplyCollisionRules(form.IsShadow);
+                character.InvalidateGroundCache();
             }
 
             character.ClearInput();
