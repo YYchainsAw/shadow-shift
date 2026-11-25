@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace ShadowShift
 {
-    public sealed class MainMenuButton : Button, IPointerMoveHandler
+    public sealed class MainMenuButton : Button, IPointerMoveHandler, ICancelHandler
     {
         private bool pointerInside;
         private bool pointerFocus;
@@ -44,6 +44,11 @@ namespace ShadowShift
         {
             pointerFocus = false;
             base.OnSubmit(eventData);
+        }
+
+        public void OnCancel(BaseEventData eventData)
+        {
+            ExecuteEvents.ExecuteHierarchy(transform.parent.gameObject, eventData, ExecuteEvents.cancelHandler);
         }
 
         protected override void OnDisable()

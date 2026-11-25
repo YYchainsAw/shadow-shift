@@ -5,15 +5,23 @@ using UnityEngine.UI;
 
 namespace ShadowShift
 {
-    public sealed class MainMenuController : MonoBehaviour
+    public sealed class MainMenuController : MonoBehaviour, ICancelHandler
     {
         private const string StudioDemoScene = "Assets/Scenes/StudioDemo.unity";
         private static readonly Color ShadowTint = new Color32(183, 161, 194, 255);
 
         [SerializeField] private CanvasGroup home;
         [SerializeField] private CanvasGroup levelSelect;
+        [SerializeField] private CanvasGroup controls;
+        [SerializeField] private CanvasGroup credits;
+        [SerializeField] private CanvasGroup quit;
         [SerializeField] private MainMenuButton playButton;
         [SerializeField] private MainMenuButton firstLevelButton;
+        [SerializeField] private MainMenuButton controlsBackButton;
+        [SerializeField] private MainMenuButton creditsBackButton;
+        [SerializeField] private MainMenuButton cancelQuitButton;
+        [SerializeField] private MainMenuButton confirmQuitButton;
+        [SerializeField] private Text quitPrompt;
         [SerializeField] private MenuSpotlight spotlight;
         [SerializeField] private Image protagonist;
         [SerializeField, Min(0.05f)] private float transitionDuration = 0.7f;
@@ -21,6 +29,7 @@ namespace ShadowShift
         private CanvasGroup activePage;
         private CanvasGroup destination;
         private MainMenuButton nextFocus;
+        private MainMenuButton homeFocus;
         private float transitionProgress;
         private bool loadingLevel;
         private Color protagonistColor;
@@ -28,19 +37,56 @@ namespace ShadowShift
         private void Awake()
         {
             activePage = home;
+            homeFocus = playButton;
             protagonistColor = protagonist.color;
             home.alpha = 1f;
             SetInputEnabled(home, true);
             HidePage(levelSelect);
+            HidePage(controls);
+            HidePage(credits);
+            HidePage(quit);
             UpdateSpotlight(0f);
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+            quitPrompt.text = "Close this tab to quit";
+            var cancelRect = (RectTransform)cancelQuitButton.transform;
+            var confirmRect = (RectTransform)confirmQuitButton.transform;
+            cancelRect.anchoredPosition = (cancelRect.anchoredPosition + confirmRect.anchoredPosition) * 0.5f;
+            cancelQuitButton.navigation = new Navigation { mode = Navigation.Mode.None };
+            confirmQuitButton.gameObject.SetActive(false);
+#endif
         }
 
         public void ShowLevels() => OpenPage(levelSelect, firstLevelButton);
+        public void ShowControls() => OpenPage(controls, controlsBackButton);
+        public void ShowCredits() => OpenPage(credits, creditsBackButton);
+        public void ShowQuit() => OpenPage(quit, cancelQuitButton);
 
         public void ShowMainMenu()
         {
             if (activePage != home && destination == null && !loadingLevel)
-                BeginTransition(home, playButton);
+                BeginTransition(home, homeFocus);
+        }
+
+        public void OnCancel(BaseEventData eventData)
+        {
+            if (activePage == home)
+                return;
+
+            ShowMainMenu();
+            eventData.Use();
+        }
+
+        public void QuitGame()
+        {
+            if (activePage != quit || destination != null)
+                return;
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#elif !UNITY_WEBGL
+            Application.Quit();
+#endif
         }
 
         public void OpenStudioDemo()
@@ -65,13 +111,23 @@ namespace ShadowShift
                 return;
 
             bool returningHome = destination == home;
-            transitionProgress = Mathf.MoveTowards(transitionProgress, 1f, Time.unscaledDeltaTime / transitionDuration);
+            bool changingQuit = activePage == quit || destination == quit;
+            float duration = changingQuit ? 0.2f : transitionDuration;
+            transitionProgress = Mathf.MoveTowards(transitionProgress, 1f, Time.unscaledDeltaTime / duration);
             float progress = returningHome ? 1f - transitionProgress : transitionProgress;
 
-            var detailPage = returningHome ? activePage : destination;
-            home.alpha = 1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(0f, 0.32f, progress));
-            detailPage.alpha = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(0.62f, 0.96f, progress));
-            UpdateSpotlight(progress);
+            if (changingQuit)
+            {
+                // Keep the home menu visible behind the confirmation while its input is disabled.
+                quit.alpha = Mathf.SmoothStep(0f, 1f, progress);
+            }
+            else
+            {
+                var detailPage = returningHome ? activePage : destination;
+                home.alpha = 1f - Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(0f, 0.32f, progress));
+                detailPage.alpha = Mathf.SmoothStep(0f, 1f, Mathf.InverseLerp(0.62f, 0.96f, progress));
+                UpdateSpotlight(progress);
+            }
 
             if (transitionProgress < 1f)
                 return;
@@ -86,6 +142,10 @@ namespace ShadowShift
         {
             if (activePage != home || destination != null)
                 return;
+
+            var currentSelection = EventSystem.current?.currentSelectedGameObject;
+            homeFocus = currentSelection != null && currentSelection.transform.IsChildOf(home.transform) &&
+                currentSelection.TryGetComponent<MainMenuButton>(out var selected) ? selected : playButton;
 
             BeginTransition(page, focus);
         }
