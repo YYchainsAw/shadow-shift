@@ -16,8 +16,10 @@ git lfs pull
 ```
 
 1. In Unity Hub, add the cloned folder and open it with Unity **6000.3.10f1**. [Project version](ProjectSettings/ProjectVersion.txt)
-2. Open [`StudioDemo.unity`](Assets/Scenes/StudioDemo.unity).
-3. Set the Game view to **16:9** and press **Play**. The fixed camera shows the whole room.
+2. Open [`MainMenu.unity`](Assets/Scenes/MainMenu.unity).
+3. Set the Game view to **16:9** and enter Play Mode. Choose **Play**, then **1** to enter Studio Demo.
+
+Open [`StudioDemo.unity`](Assets/Scenes/StudioDemo.unity) to test the room directly. Choose **Main Menu** when paused or after completing the room to return to the title screen.
 
 ## Controls
 
@@ -28,7 +30,7 @@ git lfs pull
 | `Left Shift` | Switch forms. Enter Shadow while lit |
 | Hold and drag the left mouse button | Slide the spotlight along its rail |
 | Hold the right mouse button | Aim the beam at the cursor |
-| `Esc` | Pause or resume |
+| `Esc` | Open the pause menu or resume |
 | `R` | Restart the room |
 
 [Demo walkthrough and playtest notes](Docs/Development/first-playable.md#studio-demo-route)
