@@ -16,8 +16,17 @@ namespace ShadowShift
         public override void Update()
         {
             base.Update();
-            if (StateMachine.CurrentState == this)
-                ApplyFormPhysics();
+            if (StateMachine.CurrentState != this)
+                return;
+
+            // Coyote time: a jump pressed shortly after walking off a ledge still starts.
+            if (Character.JumpRequested && Character.CanCoyoteJump)
+            {
+                StateMachine.ChangeState(Character.JumpState);
+                return;
+            }
+
+            ApplyFormPhysics();
         }
 
         public override void Exit()

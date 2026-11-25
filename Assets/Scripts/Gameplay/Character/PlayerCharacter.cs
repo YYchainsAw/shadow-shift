@@ -19,6 +19,8 @@ namespace ShadowShift
         [SerializeField, Min(1f)] private float fallGravityMultiplier = 1.4f;
         [SerializeField, Range(0.01f, 1f)] private float shadowFallGravityMultiplier = 0.7f;
         [SerializeField, Min(0.01f)] private float shadowMaxFallSpeed = 4.5f;
+        [SerializeField, Min(0f), Tooltip("Seconds after leaving a ledge during which a jump still starts.")]
+        private float coyoteTime = 0.1f;
 
         private readonly RaycastHit2D[] groundHits = new RaycastHit2D[8];
         private readonly ContactPoint2D[] contacts = new ContactPoint2D[8];
@@ -26,6 +28,7 @@ namespace ShadowShift
         private ContactFilter2D groundFilter;
         private float moveInput;
         private bool jumpRequested;
+        private float coyoteTimeRemaining;
         private bool isShadow;
         private ShadowUpdraft updraft;
         private SpotlightRail updraftLight;
@@ -44,6 +47,7 @@ namespace ShadowShift
 
         internal float MoveInput => moveInput;
         internal bool JumpRequested => jumpRequested;
+        internal bool CanCoyoteJump => coyoteTimeRemaining > 0f;
 
         public Vector2 FootPosition
         {
@@ -89,7 +93,7 @@ namespace ShadowShift
 
         public void RequestJump()
         {
-            if (SimulationEnabled && IsGrounded())
+            if (SimulationEnabled && (IsGrounded() || CanCoyoteJump))
                 jumpRequested = true;
         }
 
@@ -112,6 +116,7 @@ namespace ShadowShift
             Body.position = spawnPosition;
             Body.linearVelocity = Vector2.zero;
             Body.angularVelocity = 0f;
+            coyoteTimeRemaining = 0f;
             Body.WakeUp();
             StateMachine.ChangeState(IdleState);
         }
@@ -141,6 +146,10 @@ namespace ShadowShift
             if (StateMachine.CurrentState != RiseState && CanUseUpdraft())
                 StateMachine.ChangeState(RiseState);
 
+            coyoteTimeRemaining = StateMachine.CurrentState is CharacterGroundedState && IsGrounded()
+                ? coyoteTime
+                : Mathf.Max(0f, coyoteTimeRemaining - Time.fixedDeltaTime);
+
             StateMachine.CurrentState.Update();
             jumpRequested = false;
         }
@@ -158,6 +167,7 @@ namespace ShadowShift
         internal void BeginJump()
         {
             Body.linearVelocityY = jumpSpeed;
+            coyoteTimeRemaining = 0f;
         }
 
         internal void ApplyFallPhysics(float baseGravity)
