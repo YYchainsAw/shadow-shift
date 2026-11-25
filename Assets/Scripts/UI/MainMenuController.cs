@@ -48,12 +48,15 @@ namespace ShadowShift
             UpdateSpotlight(0f);
 
 #if UNITY_WEBGL && !UNITY_EDITOR
-            quitPrompt.text = "Close this tab to quit";
-            var cancelRect = (RectTransform)cancelQuitButton.transform;
-            var confirmRect = (RectTransform)confirmQuitButton.transform;
-            cancelRect.anchoredPosition = (cancelRect.anchoredPosition + confirmRect.anchoredPosition) * 0.5f;
-            cancelQuitButton.navigation = new Navigation { mode = Navigation.Mode.None };
-            confirmQuitButton.gameObject.SetActive(false);
+            if (quitPrompt != null && cancelQuitButton != null && confirmQuitButton != null)
+            {
+                quitPrompt.text = "Close this tab to quit";
+                var cancelRect = (RectTransform)cancelQuitButton.transform;
+                var confirmRect = (RectTransform)confirmQuitButton.transform;
+                cancelRect.anchoredPosition = (cancelRect.anchoredPosition + confirmRect.anchoredPosition) * 0.5f;
+                cancelQuitButton.navigation = new Navigation { mode = Navigation.Mode.None };
+                confirmQuitButton.gameObject.SetActive(false);
+            }
 #endif
         }
 
@@ -140,7 +143,7 @@ namespace ShadowShift
 
         private void OpenPage(CanvasGroup page, MainMenuButton focus)
         {
-            if (activePage != home || destination != null)
+            if (activePage != home || destination != null || page == null || focus == null)
                 return;
 
             var currentSelection = EventSystem.current?.currentSelectedGameObject;
@@ -168,6 +171,9 @@ namespace ShadowShift
 
         private static void HidePage(CanvasGroup group)
         {
+            if (group == null)
+                return;
+
             group.alpha = 0f;
             SetInputEnabled(group, false);
         }
