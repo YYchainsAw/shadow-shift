@@ -17,7 +17,7 @@ namespace ShadowShift
         [SerializeField] private Color beamTint = new Color(1f, 0.78f, 0.39f, 0.28f);
         [SerializeField, Min(0.01f)] private float beamLength = 9f;
         [SerializeField, Range(1f, 89f)] private float beamHalfAngle = 26f;
-        [SerializeField, Tooltip("Enabled rectangular colliders that cast shadows in this beam.")]
+        [SerializeField, Tooltip("Enabled rectangular colliders that cast shadows in this beam. Occluders are assumed not to move; enabling or disabling them is detected.")]
         private BoxCollider2D[] beamOccluders = Array.Empty<BoxCollider2D>();
 
         private float minX;
@@ -33,6 +33,12 @@ namespace ShadowShift
         private List<float> beamBreaks;
         private List<Vector3> beamVertices;
         private List<int> beamTriangles;
+        private bool edgesCached;
+        private bool cachedEdgesValid;
+        private Matrix4x4 cachedWorldToBeam;
+        private int cachedOccluderMask;
+        private int edgesVersion;
+        private int meshVersion = -1;
 
         public Vector3 WorldPosition => transform.position;
         public float BeamLength { get; private set; }
@@ -182,19 +188,54 @@ namespace ShadowShift
 
         private bool CollectBeamEdges()
         {
+            // Reuse the edges while the lamp pose and the set of active occluders are unchanged.
+            Matrix4x4 worldToBeam = transform.worldToLocalMatrix;
+            int occluderMask = GetActiveOccluderMask();
+            if (edgesCached && occluderMask >= 0 && occluderMask == cachedOccluderMask && worldToBeam == cachedWorldToBeam)
+                return cachedEdgesValid;
+
+            cachedEdgesValid = BuildBeamEdges(worldToBeam);
+            cachedWorldToBeam = worldToBeam;
+            cachedOccluderMask = occluderMask;
+            edgesCached = true;
+            edgesVersion++;
+            return cachedEdgesValid;
+        }
+
+        private int GetActiveOccluderMask()
+        {
+            if (beamOccluders.Length > 31)
+                return -1; // Too many to track; rebuild every time.
+
+            int mask = 0;
+            for (int index = 0; index < beamOccluders.Length; index++)
+            {
+                if (IsActiveOccluder(beamOccluders[index]))
+                    mask |= 1 << index;
+            }
+
+            return mask;
+        }
+
+        private static bool IsActiveOccluder(BoxCollider2D box)
+        {
+            if (box == null || !box.enabled || !box.gameObject.activeInHierarchy)
+                return false;
+
+            Rigidbody2D body = box.attachedRigidbody;
+            return body == null || body.simulated;
+        }
+
+        private bool BuildBeamEdges(Matrix4x4 worldToBeam)
+        {
             beamEdges ??= new List<BeamEdge>();
             beamEdges.Clear();
             beamEdges.Add(new BeamEdge(new Vector2(-BeamHalfWidth, -BeamLength),
                 new Vector2(BeamHalfWidth, -BeamLength)));
 
-            Matrix4x4 worldToBeam = transform.worldToLocalMatrix;
             foreach (BoxCollider2D box in beamOccluders)
             {
-                if (box == null || !box.enabled || !box.gameObject.activeInHierarchy)
-                    continue;
-
-                Rigidbody2D body = box.attachedRigidbody;
-                if (body != null && !body.simulated)
+                if (!IsActiveOccluder(box))
                     continue;
 
                 Matrix4x4 boxToBeam = worldToBeam * box.transform.localToWorldMatrix;
@@ -256,8 +297,13 @@ namespace ShadowShift
 
         private void UpdateBeamMesh()
         {
+            bool edgesValid = CollectBeamEdges();
+            if (meshVersion == edgesVersion)
+                return; // Nothing changed since the last rebuild.
+
+            meshVersion = edgesVersion;
             beamMesh.Clear();
-            if (!CollectBeamEdges())
+            if (!edgesValid)
                 return;
 
             beamBreaks ??= new List<float>();
