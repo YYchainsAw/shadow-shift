@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: db2dd745c9f13374a82a44c6abba5498
+  - enabled: 1
+    path: Assets/Scenes/StudioDemo.unity
+    guid: c97999a7e9242af4d821d0466628ddee
+  - enabled: 1
     path: Assets/Scenes/ShadowShift.unity
     guid: f907173e176f4ccf8e9c72e4a019f215
   m_configObjects:
