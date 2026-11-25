@@ -14,11 +14,7 @@ namespace ShadowShift
     {
         [SerializeField] private ObstacleType type;
 
-        public ObstacleType Type
-        {
-            get => type;
-            set => type = value;
-        }
+        public ObstacleType Type => type;
 
         public Collider2D Collider { get; private set; }
 

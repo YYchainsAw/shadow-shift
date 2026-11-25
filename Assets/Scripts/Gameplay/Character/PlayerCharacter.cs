@@ -25,7 +25,6 @@ namespace ShadowShift
         private float jumpBufferTime = 0.12f;
 
         private readonly RaycastHit2D[] groundHits = new RaycastHit2D[8];
-        private readonly ContactPoint2D[] contacts = new ContactPoint2D[8];
         private BoxCollider2D bodyCollider;
         private ContactFilter2D groundFilter;
         private float moveInput;
@@ -61,21 +60,6 @@ namespace ShadowShift
             {
                 Vector2 localFoot = bodyCollider.offset + Vector2.down * (bodyCollider.size.y * 0.5f);
                 return Body.position + (Vector2)transform.TransformVector(localFoot);
-            }
-        }
-
-        public bool IsMovementBlocked
-        {
-            get
-            {
-                int count = bodyCollider.GetContacts(contacts);
-                for (int index = 0; index < count; index++)
-                {
-                    if (contacts[index].normal.x * moveInput < -0.5f)
-                        return true;
-                }
-
-                return false;
             }
         }
 
