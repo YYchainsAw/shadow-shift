@@ -1,7 +1,7 @@
 # First playable level
 
 > [!NOTE]
-> The sections from **Run the test** through **Acceptance checks** describe the legacy `ShadowShift` greybox scene, kept at build index 2 for reference. The current playable room is Studio Demo. Start from `MainMenu` (build index 0) or open `StudioDemo` (build index 1), and follow the [Studio demo route](#studio-demo-route).
+> The sections from **Run the test** through **Acceptance checks** describe the legacy `ShadowShift` greybox scene, kept disabled in the build list for reference. The current playable room is Studio Demo. Start from `MainMenu` (build index 0) or open `StudioDemo` (build index 1), and follow the [Studio demo route](#studio-demo-route).
 
 The current layout starts in the upper left and leads through the blue wall on the middle landing to the green fan switch and upper-right landing. The lower platforms hold the purple wall, purple switch, and cracked floor. The battery marker is below the cracked floor. [Level layout](../Design/first-playable-greybox.drawio.svg)
 
@@ -11,7 +11,7 @@ The current layout starts in the upper left and leads through the blue wall on t
 2. Set the Game view to **16:9**, enter Play mode, and focus the Game view.
 3. Use the controls below.
 
-The build scene list starts with `MainMenu` and `StudioDemo`. `ShadowShift` is at index 2.
+The build scene list enables `MainMenu` and `StudioDemo`, with `ShadowShift` disabled.
 
 | Input | Action |
 | --- | --- |

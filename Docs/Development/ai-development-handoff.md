@@ -19,7 +19,7 @@ git lfs fsck --objects HEAD
 2. Open [MainMenu.unity](../../Assets/Scenes/MainMenu.unity), set Game view to **16:9**, and enter Play Mode. Choose **Play** → **1**. Open [StudioDemo.unity](../../Assets/Scenes/StudioDemo.unity) directly when iterating on gameplay.
 3. Follow the [Studio Demo walkthrough](first-playable.md#studio-demo-route) for a full manual playthrough. The earlier sections of that document cover the legacy `ShadowShift` greybox.
 
-The [build scene list](../../ProjectSettings/EditorBuildSettings.asset) starts with `MainMenu` at index 0 and `StudioDemo` at index 1. `ShadowShift` remains a legacy greybox at index 2. `01_Level_Start` is a separate scale and art sample.
+The [build scene list](../../ProjectSettings/EditorBuildSettings.asset) enables `MainMenu` at index 0 and `StudioDemo` at index 1. `ShadowShift` remains listed (disabled) as a legacy greybox. `01_Level_Start` is a separate scale and art sample.
 
 ## Player-facing behavior
 
