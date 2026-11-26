@@ -13,6 +13,8 @@ namespace ShadowShift
         [SerializeField] private Camera viewCamera;
         [SerializeField] private Transform leftEndpoint;
         [SerializeField] private Transform rightEndpoint;
+        [SerializeField, Tooltip("Optional rail slider visual that translates horizontally with the spotlight.")]
+        private Transform carriage;
         [SerializeField] private Shader beamShader;
         [SerializeField] private Color beamTint = new Color(1f, 0.78f, 0.39f, 0.28f);
         [SerializeField, Min(0.01f)] private float beamLength = 9f;
@@ -22,6 +24,7 @@ namespace ShadowShift
 
         private float minX;
         private float maxX;
+        private float carriageOffsetX;
         private float beamSlope;
         private Vector3 initialPosition;
         private Quaternion initialRotation;
@@ -56,6 +59,8 @@ namespace ShadowShift
             initialPosition = WorldPosition;
             initialPosition.x = Mathf.Clamp(initialPosition.x, minX, maxX);
             initialRotation = transform.rotation;
+            if (carriage != null)
+                carriageOffsetX = carriage.position.x - WorldPosition.x;
             ResetPosition();
             CreateBeam();
         }
@@ -124,6 +129,7 @@ namespace ShadowShift
             Vector3 position = WorldPosition;
             position.x = Mathf.Clamp(position.x + currentWorld.x - previousWorld.x, minX, maxX);
             transform.position = position;
+            SyncCarriage();
         }
 
         public void AimPointer(Vector2 pointerScreenPosition)
@@ -170,6 +176,17 @@ namespace ShadowShift
         {
             transform.SetPositionAndRotation(initialPosition, initialRotation);
             previousPointerPosition = null;
+            SyncCarriage();
+        }
+
+        private void SyncCarriage()
+        {
+            if (carriage == null)
+                return;
+
+            Vector3 carriagePosition = carriage.position;
+            carriagePosition.x = WorldPosition.x + carriageOffsetX;
+            carriage.position = carriagePosition;
         }
 
         private bool TryProjectPointer(Vector2 screenPosition, out Vector2 worldPosition)

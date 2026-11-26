@@ -21,6 +21,10 @@ namespace ShadowShift
         private Collider2D exit;
         [SerializeField, Tooltip("Optional. The fall boundary still applies without this trigger.")]
         private Collider2D hazard;
+        [SerializeField, Tooltip("Optional hazard active only before the breakable floor is broken, preventing lower-floor softlocks.")]
+        private Collider2D preBreakHazard;
+        [SerializeField, Tooltip("Optional ordered checkpoints that preserve solved switches on automatic retry.")]
+        private LevelCheckpoint[] checkpoints;
         [SerializeField] private FormObstacle[] obstacles;
         [SerializeField] private PhysicalSwitch fanSwitch;
         [SerializeField] private ShadowUpdraft updraft;
@@ -50,6 +54,7 @@ namespace ShadowShift
         private ShiftRejection shiftRejection;
         private float shiftRejectionTimeRemaining;
         private bool canShift;
+        private LevelCheckpoint activeCheckpoint;
 
         public StateMachine<LevelState> StateMachine { get; } = new();
         public LevelPlayingState PlayingState { get; private set; }
@@ -62,6 +67,9 @@ namespace ShadowShift
         internal bool HasLampHandoff => battery != null && nextSpotlight != null && lampHandoff != null;
         internal bool ControlsNextSpotlight => HasLampHandoff && spotlightInput?.ControlledSpotlight == nextSpotlight;
         internal bool CanRetryAtLamp => ControlsNextSpotlight && lampRetryPoint != null;
+        internal bool HasActiveCheckpoint => CanRetryAtLamp || activeCheckpoint != null;
+        internal Vector3 PrimarySpotlightPosition => spotlight != null ? spotlight.WorldPosition : Vector3.zero;
+        internal float PrimarySpotlightAngle => spotlight != null ? spotlight.transform.eulerAngles.z : 0f;
         internal bool IsExitUnlocked => (battery == null || battery.IsCharged) && (!HasLampHandoff || ControlsNextSpotlight);
         internal Vector3 LampHandoffPosition => lampHandoff.bounds.center;
         internal float? ShadowTimeRemaining => form != null && form.IsOutsideLight ? form.TimeRemaining : null;
@@ -140,11 +148,14 @@ namespace ShadowShift
             canShift = form.CheckShift(form.IsShadow || isLit) == ShiftRejection.None;
 
             bool expired = form.UpdateStability(isLit, Time.deltaTime);
-            if (expired || footPosition.y < fallBoundary || Overlaps(hazard))
+            bool hitPreBreakHazard = breakableFloor != null && !breakableFloor.IsBroken && Overlaps(preBreakHazard);
+            if (expired || footPosition.y < fallBoundary || Overlaps(hazard) || hitPreBreakHazard)
             {
                 StateMachine.ChangeState(FailedState);
                 return;
             }
+
+            UpdateCheckpoints();
 
             if (battery != null && (breakableFloor == null || breakableFloor.IsBroken)
                 && battery.ChargeFrom(spotlight, Time.deltaTime))
@@ -185,7 +196,28 @@ namespace ShadowShift
 
         private bool Overlaps(Collider2D trigger)
         {
-            return trigger != null && character.Collider.Distance(trigger).isOverlapped;
+            return trigger != null && trigger.enabled && character.Collider.Distance(trigger).isOverlapped;
+        }
+
+        private void UpdateCheckpoints()
+        {
+            if (checkpoints == null)
+                return;
+
+            foreach (LevelCheckpoint checkpoint in checkpoints)
+            {
+                if (checkpoint != null && (activeCheckpoint == null || checkpoint.Order >= activeCheckpoint.Order)
+                    && checkpoint.Overlaps(character.Collider))
+                    activeCheckpoint = checkpoint;
+            }
+        }
+
+        private bool HasMechanismProgress()
+        {
+            return (fanSwitch != null && fanSwitch.IsPressed)
+                || (shadowSwitch != null && shadowSwitch.IsPressed)
+                || (breakableFloor != null && breakableFloor.IsBroken)
+                || (battery != null && battery.ChargeProgress > 0f);
         }
 
         private void PlaySound(AudioClip clip, float volumeScale = 1f)
@@ -257,6 +289,7 @@ namespace ShadowShift
 
         internal void RestartLevel()
         {
+            activeCheckpoint = null;
             if (shadowSwitch != null)
                 shadowSwitch.ResetSwitch();
             if (breakableFloor != null)
@@ -279,14 +312,20 @@ namespace ShadowShift
 
         internal void RestartAfterFailure()
         {
-            if (!CanRetryAtLamp)
+            if (CanRetryAtLamp)
             {
-                RestartLevel();
+                nextSpotlight.ResetPosition();
+                ResetPlayerAt(lampRetryPoint);
                 return;
             }
 
-            nextSpotlight.ResetPosition();
-            ResetPlayerAt(lampRetryPoint);
+            if (activeCheckpoint != null || HasMechanismProgress())
+            {
+                ResetPlayerAt(activeCheckpoint != null ? activeCheckpoint.RespawnTransform : spawnPoint);
+                return;
+            }
+
+            RestartLevel();
         }
 
         private void ResetPlayerAt(Transform point)
