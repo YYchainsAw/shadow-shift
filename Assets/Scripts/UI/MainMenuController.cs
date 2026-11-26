@@ -7,7 +7,9 @@ namespace ShadowShift
 {
     public sealed class MainMenuController : MonoBehaviour, ICancelHandler
     {
-        private const string StudioDemoScene = "Assets/Scenes/StudioDemo.unity";
+        public const string Level1Scene = "Assets/Scenes/StudioLevel1.unity";
+        public const string Level2Scene = "Assets/Scenes/StudioLevel2.unity";
+        public const string Level3Scene = "Assets/Scenes/StudioDemo.unity";
         private static readonly Color ShadowTint = new Color32(183, 161, 194, 255);
 
         [SerializeField] private CanvasGroup home;
@@ -92,20 +94,30 @@ namespace ShadowShift
 #endif
         }
 
+        public void OpenLevel1() => OpenLevel(Level1Scene, 1);
+        public void OpenLevel2() => OpenLevel(Level2Scene, 2);
+        public void OpenLevel3() => OpenLevel(Level3Scene, 3);
+
         public void OpenStudioDemo()
+        {
+            string target = Application.CanStreamedLevelBeLoaded(Level1Scene) ? Level1Scene : Level3Scene;
+            OpenLevel(target, 1);
+        }
+
+        private void OpenLevel(string scenePath, int levelNumber)
         {
             if (activePage != levelSelect || destination != null || loadingLevel)
                 return;
 
-            if (!Application.CanStreamedLevelBeLoaded(StudioDemoScene))
+            if (!Application.CanStreamedLevelBeLoaded(scenePath))
             {
-                Debug.LogError("Add StudioDemo to the build scene list before starting level 1.", this);
+                Debug.LogError($"Add {scenePath} to the build scene list before starting level {levelNumber}.", this);
                 return;
             }
 
             loadingLevel = true;
             SetInputEnabled(levelSelect, false);
-            SceneManager.LoadSceneAsync(StudioDemoScene);
+            SceneManager.LoadSceneAsync(scenePath);
         }
 
         private void Update()

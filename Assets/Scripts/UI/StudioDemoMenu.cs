@@ -15,9 +15,13 @@ namespace ShadowShift
         [SerializeField] private Text title;
         [SerializeField] private Text subtitle;
         [SerializeField] private MainMenuButton resumeButton;
+        [SerializeField] private MainMenuButton nextLevelButton;
         [SerializeField] private MainMenuButton restartButton;
         [SerializeField] private MainMenuButton mainMenuButton;
         [SerializeField] private Text restartLabel;
+        [SerializeField] private string levelLabel = "Studio Demo";
+        [SerializeField, Tooltip("Optional scene path loaded by the Next Level button after completion.")]
+        private string nextLevelScene;
 
         private LevelState displayedState;
         private bool loadingMenu;
@@ -45,15 +49,19 @@ namespace ShadowShift
                 return;
             }
 
-            title.text = completed ? "Room complete" : "Paused";
+            bool hasNextLevel = completed && nextLevelButton != null && !string.IsNullOrEmpty(nextLevelScene);
+            title.text = completed ? (hasNextLevel ? "Stage clear" : "All stages clear") : "Paused";
             restartLabel.text = completed ? "Play again" : "Restart";
             resumeButton.gameObject.SetActive(paused);
+            if (nextLevelButton != null)
+                nextLevelButton.gameObject.SetActive(hasNextLevel);
             restartButton.interactable = true;
-            subtitle.text = completed ? "Studio Demo" : FormatShadowTime();
+            string shadowStatus = FormatShadowTime();
+            subtitle.text = completed ? levelLabel : (shadowStatus.Length > 0 ? shadowStatus : levelLabel);
             subtitle.gameObject.SetActive(subtitle.text.Length > 0);
             SetPanelVisible(true);
 
-            var firstButton = paused ? resumeButton : mainMenuButton;
+            var firstButton = paused ? resumeButton : (hasNextLevel ? nextLevelButton : mainMenuButton);
             EventSystem.current?.SetSelectedGameObject(firstButton.gameObject);
         }
 
@@ -61,6 +69,23 @@ namespace ShadowShift
         {
             if (!loadingMenu && level.PausedState != null && level.StateMachine.CurrentState == level.PausedState)
                 level.StateMachine.ChangeState(level.PlayingState);
+        }
+
+        public void OpenNextLevel()
+        {
+            if (loadingMenu || level.StateMachine.CurrentState != level.CompletedState || string.IsNullOrEmpty(nextLevelScene))
+                return;
+
+            if (!Application.CanStreamedLevelBeLoaded(nextLevelScene))
+            {
+                Debug.LogError($"Add {nextLevelScene} to the build scene list before advancing.", this);
+                return;
+            }
+
+            loadingMenu = true;
+            panel.interactable = false;
+            level.enabled = false;
+            SceneManager.LoadSceneAsync(nextLevelScene);
         }
 
         public void RestartLevel()
@@ -107,7 +132,8 @@ namespace ShadowShift
             panel.alpha = visible ? 1f : 0f;
             panel.interactable = visible;
             panel.blocksRaycasts = visible;
-            gameplayHintPanel.gameObject.SetActive(!visible);
+            if (gameplayHintPanel != null)
+                gameplayHintPanel.gameObject.SetActive(!visible);
         }
     }
 }
