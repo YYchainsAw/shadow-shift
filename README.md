@@ -17,9 +17,9 @@ git lfs pull
 
 1. In Unity Hub, add the cloned folder and open it with Unity **6000.3.10f1**. [Project version](ProjectSettings/ProjectVersion.txt)
 2. Open [`MainMenu.unity`](Assets/Scenes/MainMenu.unity).
-3. Set the Game view to **16:9** and enter Play Mode. Choose **Play**, then **1** to enter Studio Demo.
+3. Set the Game view to **16:9** and enter Play Mode. Choose **Play**, then select stage **1**, **2**, or **3** (or advance with **Next level** as you clear each stage).
 
-Open [`StudioDemo.unity`](Assets/Scenes/StudioDemo.unity) to test the room directly. Choose **Main Menu** when paused or after completing the room to return to the title screen.
+Open [`StudioLevel1.unity`](Assets/Scenes/StudioLevel1.unity), [`StudioLevel2.unity`](Assets/Scenes/StudioLevel2.unity), or [`StudioDemo.unity`](Assets/Scenes/StudioDemo.unity) to test any stage directly. Choose **Main Menu** when paused or after completing a stage to return to the title screen.
 
 ## Controls
 

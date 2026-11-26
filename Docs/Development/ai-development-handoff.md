@@ -1,6 +1,6 @@
 # shadowshift development handoff
 
-Snapshot taken on 25 November 2026. The project is a Unity 2D puzzle platformer set in an abandoned film studio, built for Game Off 2026. The player moves and aims a spotlight while switching between Physical and Shadow. The current playable scope is one complete room, Studio Demo.
+Snapshot updated on 26 November 2026. The project is a Unity 2D puzzle platformer set in an abandoned film studio, built for Game Off 2026. The player moves and aims a spotlight while switching between Physical and Shadow across three progressive studio stages (`StudioLevel1`, `StudioLevel2`, and `StudioDemo`).
 
 ## Start here
 
@@ -16,17 +16,17 @@ git lfs fsck --objects HEAD
 ```
 
 1. Open the repository in **Unity 6000.3.10f1**. The project uses URP 2D, uGUI, and Input System only. Check the [Unity version](../../ProjectSettings/ProjectVersion.txt) and [package manifest](../../Packages/manifest.json).
-2. Open [MainMenu.unity](../../Assets/Scenes/MainMenu.unity), set Game view to **16:9**, and enter Play Mode. Choose **Play** → **1**. Open [StudioDemo.unity](../../Assets/Scenes/StudioDemo.unity) directly when iterating on gameplay.
-3. Follow the [Studio Demo walkthrough](first-playable.md#studio-demo-route) for a full manual playthrough. The earlier sections of that document cover the legacy `ShadowShift` greybox.
+2. Open [MainMenu.unity](../../Assets/Scenes/MainMenu.unity), set Game view to **16:9**, and enter Play Mode. Choose **Play** → **1**, **2**, or **3**. Open [StudioLevel1.unity](../../Assets/Scenes/StudioLevel1.unity), [StudioLevel2.unity](../../Assets/Scenes/StudioLevel2.unity), or [StudioDemo.unity](../../Assets/Scenes/StudioDemo.unity) directly when iterating on gameplay.
+3. Follow the [three-stage walkthrough](first-playable.md#studio-demo-route) for a full manual playthrough. The earlier sections of that document cover the legacy `ShadowShift` greybox.
 
-The [build scene list](../../ProjectSettings/EditorBuildSettings.asset) enables `MainMenu` at index 0 and `StudioDemo` at index 1. `ShadowShift` remains listed (disabled) as a legacy greybox. `01_Level_Start` is a separate scale and art sample.
+The [build scene list](../../ProjectSettings/EditorBuildSettings.asset) enables `MainMenu` (0), `StudioLevel1` (1), `StudioLevel2` (2), and `StudioDemo` (3). `ShadowShift` remains listed (disabled) as a legacy greybox. `01_Level_Start` is a separate scale and art sample.
 
 ## Player-facing behavior
 
-- **Main menu**. Play turns the hanging lamp left, then reveals a single row of level numbers `1  2  3`. Level 1 launches Studio Demo. Levels 2 and 3 are disabled placeholders. Back reverses the sweep and restores the home menu.
+- **Main menu**. Play turns the hanging lamp left, then reveals a single row of level numbers `1  2  3`, all unlocked by default for jam evaluation. Back reverses the sweep and restores the home menu.
 - **Controls, Credits, Quit**. Controls shows the real input bindings. Credits lists Game Off 2026 and Kenney audio. Quit opens a confirmation with Cancel initially selected. The editor quits Play Mode on confirmation. Standalone uses `Application.Quit()`. The WebGL code displays a close-tab instruction.
 - **Menu focus**. Play starts selected. Mouse movement lights only the hovered button. Pointer exit clears its highlight while retaining the selection needed for keyboard navigation. Arrow keys and Enter navigate and submit. Esc returns from menu subpages.
-- **In-game menus**. Esc pauses and resumes. The pause panel has Resume, Restart, and Main Menu. Resume preserves the player's position and suspended velocity. The room-complete panel offers Play again and Main Menu. Entering the room again from the title screen starts a fresh session.
+- **In-game menus**. Esc pauses and resumes. The pause panel has Resume, Restart, and Main Menu. Stages 1 and 2 offer **Next level**, **Play again**, and **Main Menu** on completion; Stage 3 offers **Play again** and **Main Menu**. Entering a stage from the title screen starts a fresh session.
 
 | Gameplay input | Action |
 | --- | --- |
@@ -38,17 +38,18 @@ The [build scene list](../../ProjectSettings/EditorBuildSettings.asset) enables 
 | `Esc` | Pause or resume |
 | `R` | Reset the entire room |
 
-## Studio Demo route and rules
+## Three-stage progression and rules
 
-1. Jump into the first lamp's beam. Shift to Shadow to pass the blue wall, then switch back to Physical and land on the green fan switch.
-2. Return through the blue wall. Drop to the violet switch ledge, light the player's feet, then press that switch as Shadow to open the upper walkway.
-3. Pass the purple wall as Physical, jump to the arrow, and use the first lamp to cover the updraft. Shift to Shadow, ride the wind up, and land on the upper walkway.
-4. Drop from the upper walkway as Physical onto the cracked floor. The drop from the fan switch platform is too short to break it.
-5. Aim the first lamp at the battery under the floor. It needs **1.25 seconds of accumulated light**. Partial charge persists between exposures.
-6. Walk right to the handoff marker and take control of lamp 2. Release held mouse buttons before starting another drag or aim gesture.
-7. Stay lit as Shadow while crossing the final blue wall and entering the exit.
+- **Stage 1 (`StudioLevel1`) — Light & Form**: Compact fixed-frame onboarding (`x ∈ [0, 22]`) with diegetic keycap callouts. Walk right, jump the starter step, aim the spotlight with right mouse and shift to Shadow through the blue colonade while dragging the lamp with left mouse, then shift back to Physical to pass the violet barrier and enter the open exit.
+- **Stage 2 (`StudioLevel2`) — Wind & Conduit**: Two-tier fixed-frame room (`x ∈ [0, 26]`) introducing permanent circuit wires (`CircuitWire`) and ordered checkpoints (`LevelCheckpoint`). Step on the green switch as Physical to power the fan, cross the blue wall as Shadow to press the violet switch and enable the upper walkway, then ride the lit updraft up and right to the exit.
+- **Stage 3 (`StudioDemo`) — Shatter & Charge**: Full-hall finale (`x ∈ [-2, 31]`) refactored into a forward-flowing route:
+  1. From the upper-left platform, light your feet, shift to Shadow through the blue wall, and step on the violet switch to enable the upper walkway.
+  2. Drop right onto the cracked vault deck, shift to Physical through the purple wall, and step on the green fan switch right beside the updraft.
+  3. Cover the updraft with lamp 1, shift to Shadow, rise onto the upper walkway, and walk left directly over the cracked floor.
+  4. Shift to Physical to smash through the cracked floor, then hold lamp 1 on the exposed battery for **1.25 seconds** of accumulated light to power lamp 2 and the exit via the cyan conduit.
+  5. Walk right to the glowing lamp 2 pad, take control of lamp 2, and cross the final blue gate as lit Shadow into the exit.
 
-The room uses a fixed camera showing the whole level. Physical collides with blue Physical Solids and passes through violet Shadow Barriers. Shadow collides with violet Shadow Barriers and passes through blue Physical Solids. Universal Solids block both. Entering Shadow requires lit feet and a valid destination form. Returning to Physical requires room for that form. Leaving the light suspends Shadow steering and starts a stability timer while gravity continues. After the lamp 2 handoff, automatic retries preserve solved mechanisms and respawn the player as Physical near lamp 2. Restart and `R` reset both lamps, solved mechanisms, and the player to the original spawn.
+All three rooms use fixed cameras (`followCharacter = false`) for stable mouse dragging and aiming, and pure in-world guidance (permanent circuit wires + overhead status badge for `Shift`, `Need Light`, `Blocked`, and Shadow stability countdown). Automatic retries respawn at the latest `LevelCheckpoint` (or lamp 2 checkpoint) while preserving solved switches, broken floor, and battery charge; `R` and menu **Restart** perform a full stage reset.
 
 ## Where to work
 
@@ -60,8 +61,8 @@ The room uses a fixed camera showing the whole level. Physical collides with blu
 | Gameplay state and retry | [LevelSession.cs](../../Assets/Scripts/Gameplay/Level/LevelSession.cs) coordinates input, mechanisms, illumination, audio, handoff, reset, and the Playing/Paused/Failed/Completed states. |
 | Character | [PlayerCharacter.cs](../../Assets/Scripts/Gameplay/Character/PlayerCharacter.cs), [PlayerAnimation.cs](../../Assets/Scripts/Gameplay/Character/PlayerAnimation.cs), and [CharacterFormController.cs](../../Assets/Scripts/Gameplay/Character/CharacterFormController.cs) cover locomotion, animation, shift validation, collision rules, and shadow stability. |
 | Gameplay spotlight | [SpotlightInput.cs](../../Assets/Scripts/Gameplay/Lighting/SpotlightInput.cs) manages drag, aiming, and control handoff. [SpotlightRail.cs](../../Assets/Scripts/Gameplay/Lighting/SpotlightRail.cs) clips both rendered and sampled light using the scene's configured occluders. |
-| Puzzle mechanisms | [PhysicalSwitch.cs](../../Assets/Scripts/Gameplay/Level/PhysicalSwitch.cs), [ShadowWalkwaySwitch.cs](../../Assets/Scripts/Gameplay/Level/ShadowWalkwaySwitch.cs), [ShadowUpdraft.cs](../../Assets/Scripts/Gameplay/Level/ShadowUpdraft.cs), [BreakableFloor.cs](../../Assets/Scripts/Gameplay/Level/BreakableFloor.cs), and [LightBattery.cs](../../Assets/Scripts/Gameplay/Level/LightBattery.cs). |
-| In-game presentation | [StudioDemoFeedback.cs](../../Assets/Scripts/Gameplay/Level/StudioDemoFeedback.cs) manages hints, charge and route markers. [StudioDemoMenu.cs](../../Assets/Scripts/UI/StudioDemoMenu.cs) displays pause and completion actions using the existing level session. |
+| Puzzle mechanisms | [PhysicalSwitch.cs](../../Assets/Scripts/Gameplay/Level/PhysicalSwitch.cs), [ShadowWalkwaySwitch.cs](../../Assets/Scripts/Gameplay/Level/ShadowWalkwaySwitch.cs), [ShadowUpdraft.cs](../../Assets/Scripts/Gameplay/Level/ShadowUpdraft.cs), [BreakableFloor.cs](../../Assets/Scripts/Gameplay/Level/BreakableFloor.cs), [LightBattery.cs](../../Assets/Scripts/Gameplay/Level/LightBattery.cs), and [LevelCheckpoint.cs](../../Assets/Scripts/Gameplay/Level/LevelCheckpoint.cs). |
+| In-game presentation | [CircuitWire.cs](../../Assets/Scripts/Gameplay/Level/CircuitWire.cs) renders unpowered/powered conduits with traveling pulses. [LevelGuidance.cs](../../Assets/Scripts/Gameplay/Level/LevelGuidance.cs) manages overhead badges, charge meters, and Stage 1 callouts. [StudioDemoMenu.cs](../../Assets/Scripts/UI/StudioDemoMenu.cs) displays pause, next-level, and completion actions. |
 
 The menu uses the approved lowercase title with a solid cream `shadow` and an outlined cyan `shift`. Menu art is under `Assets/Art/Menu/` and studio sprites are under `Assets/Art/Environment/Studio/`. `MenuAtmosphere.png` served the original menu. The current lighting comes from the mesh in `MenuSpotlight`. Player animation uses frame sprites. For audio attribution and source packs, use the [Kenney clip list](first-playable.md#sound-effects).
 
